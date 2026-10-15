@@ -34,7 +34,7 @@ const usuarioSchema = mongoose.Schema({
     password: {
         type: String, 
         required: [true, 'Se requiere una contraseña.'], 
-        minLenght: [8, 'La contraseña debe contener al menos 8 carácteres.'], 
+        minLength: [8, 'La contraseña debe contener al menos 8 carácteres.'], 
         select: false
     },
     rol: {
@@ -61,7 +61,7 @@ usuarioSchema.pre('save', async function (next) {
     
     // Evitar que un password hasheado sea vuelto a hashear.
     if(!this.isModified('password')) {
-        return next(); // Si ya esta hasheado, saltear e irse al siguiente middleware.
+        return; // Para la version de Moongose 9 instalada, no hace falta el next().
     }
     // SALT_ROUNDS = 10
     const salt = await bcrypt.genSalt(10)

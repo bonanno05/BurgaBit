@@ -26,7 +26,7 @@ const chequearAuth = async (req, res, next) => {
             
             return next();
         } catch (error) {
-            res.status(403).json({msg: 'Token no válido.'});
+            return res.status(403).json({msg: 'Token no válido.'});
         }
     }
 

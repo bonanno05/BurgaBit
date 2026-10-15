@@ -4,6 +4,7 @@ import { autenticar, registrar } from "../controladores/authControlador.js";
 
 const router = express.Router();
 
+// Rutas públicas
 router.post("/login", autenticar);
 router.post("/registrar", registrar);
 

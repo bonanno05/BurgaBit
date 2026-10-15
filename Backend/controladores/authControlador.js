@@ -9,31 +9,37 @@
 import Usuario from "../modelos/Usuario.js";
 import generarJWT from "../config/jwt.js";
 
-
+// Funcionalidades de todos los usuarios.
 const registrar = async (req, res) => {
 
-    const {email, nombreUsuario} = req.body;
+    const {nombre, apellido, email, password} = req.body;
 
-    // Detener ejecución innecesaria por duplicados.
-    // $or: Busca que coincida mail o nombre de usuario para determinar que existe el duplicado, sin $or, buscaria coincidencias exactas.
     const existeUsuario = await Usuario.findOne({email});
 
+    // Detener ejecución innecesaria por duplicados.
     if(existeUsuario) {
         return res.status(400).json({msg: "Usuario ya registrado."}); // 400 = Bad Request
     }
 
     try {
-        const usuario = new Usuario(req.body);
+        const usuario = new Usuario({
+            nombre,
+            apellido,
+            email,
+            password
+        });
+
         const usuarioGuardado = await usuario.save();
 
-        res.json({msg: "Registrando usuario..."});
+        res.status(201).json({msg: "Usuario registrado."});
     } catch(error) {
-        console.log(error);
+        res.status(500).json({msg: "Error al registrar usuario."});
     }
 
 }
 
 const autenticar = async (req, res) => {
+    
     // Desestructuración
     const {email, password} = req.body;
 
@@ -42,6 +48,10 @@ const autenticar = async (req, res) => {
 
     if(!usuario) {
       return res.status(401).json({msg: 'Usuario inválido.'});
+    }
+
+    if(!usuario.isActivo) {
+        return res.status(403).json({msg: 'Usuario desactivado.'});
     }
 
     // Validar contraseña
@@ -53,9 +63,8 @@ const autenticar = async (req, res) => {
     }
 
 }
- 
 
 export {
     registrar,
-    autenticar
+    autenticar,
 };

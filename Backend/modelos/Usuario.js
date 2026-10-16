@@ -61,7 +61,7 @@ usuarioSchema.pre('save', async function (next) {
     
     // Evitar que un password hasheado sea vuelto a hashear.
     if(!this.isModified('password')) {
-        return; // Si ya esta hasheado, saltear e irse al siguiente middleware, Mongoose 9 con next() rompe todo.
+        return; // Para la version de Moongose 9 instalada, no hace falta el next().
     }
     // SALT_ROUNDS = 10
     const salt = await bcrypt.genSalt(10)

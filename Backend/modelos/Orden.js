@@ -71,11 +71,11 @@ const ordenSchema = new mongoose.Schema({
     estado: {
         type: String,
         enum: ['En preparación', 'Listo para retirar', 'Entregado', 'Cancelado'],
-        default: 'EN preparación'
+        default: 'En preparación'
     },
     historialEstados: {
         type: [historialEstadosSchema],
-        default: () => [{estado: 'Pendiente'}]
+        default: () => [{estado: 'En preparación'}]
     }
 }, {timestamps: true});
 

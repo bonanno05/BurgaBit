@@ -26,6 +26,10 @@ const ingredienteSchema = new mongoose.Schema({
     isDisponible: {
         type: Boolean,
         default: true
+    },
+    categoria: {
+        type: mongoose.Schema.Types.ObjectId, ref: "Categoria",
+        required: true
     }
 }, {timestamps: true});
 

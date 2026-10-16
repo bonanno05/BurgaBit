@@ -11,5 +11,4 @@ router.post("/registrar", registrar);
 router.put("/perfil", chequearAuth, actualizarPerfil);
 router.put("/perfil/password", chequearAuth, actualizarPassword);
 
-
 export default router;

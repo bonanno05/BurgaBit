@@ -31,7 +31,7 @@ const registrar = async (req, res) => {
 
         const usuarioGuardado = await usuario.save();
 
-        res.status(201).json({msg: "Usuario registrado."}, usuarioGuardado); // 201 = Petición exitosa
+        res.status(201).json({msg: "Usuario registrado."}); // 201 = Petición exitosa
     } catch(error) {
         res.status(500).json({msg: "Error al registrar usuario."}); // 500 = Error interno del servidor
     }

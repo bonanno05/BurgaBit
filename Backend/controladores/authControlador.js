@@ -1,15 +1,15 @@
 /*
-    Controlador auth
-    -Login
-    -Logout
-    -Registro
-    -Autenticación
+    Todos los usuarios pueden:
+    -Login/Autenticación (Hecho)
+    -Logout (JWT = Frontend?)
+    -Registro (Hecho)
 */
 
 import Usuario from "../modelos/Usuario.js";
 import generarJWT from "../config/jwt.js";
 
 // Funcionalidades de todos los usuarios.
+// Crear usuario (default = cliente)
 const registrar = async (req, res) => {
 
     const {nombre, apellido, email, password} = req.body;
@@ -38,6 +38,7 @@ const registrar = async (req, res) => {
 
 }
 
+// Login
 const autenticar = async (req, res) => {
     
     // Desestructuración

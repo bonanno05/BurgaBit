@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 // timestamp: Mongoose agrega createdAt y updateAt.
 // match: emplea una expresión regular para delimitar los carácteres válidos que puede emplear el usuario.
 
-const usuarioSchema = mongoose.Schema({
+const usuarioSchema = new mongoose.Schema({
     nombre: {
         type: String, 
         required: [true, 'Se requiere un nombre.'], 
@@ -34,7 +34,7 @@ const usuarioSchema = mongoose.Schema({
     password: {
         type: String, 
         required: [true, 'Se requiere una contraseña.'], 
-        minLength: [8, 'La contraseña debe contener al menos 8 carácteres.'], 
+        minLength: [8, 'La contraseña debe contener al menos 8 caracteres.'], 
         select: false
     },
     rol: {

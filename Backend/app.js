@@ -3,19 +3,26 @@ import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
 import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import crearAdminInicial from "./config/crearAdmin.js";
 import cors from "cors";
+
 const app = express();
 app.use(express.json());
+app.use(cors());
 dotenv.config();
-conectarDB();
+
+await conectarDB();
+await crearAdminInicial();
+
+const PORT = process.env.PORT || 4000;
+
 
 // ' = ctrl + shift + 27 (Linux) 
-app.use(cors());
-// Rutas base de administradores
-app.use("/api/administrador", adminRoutes);
-// Rutas de login, etc.
+
+// Ruta base de administradores
+app.use("/api/admin", adminRoutes);
+// Ruta pública de login, etc.
 app.use("/api/auth", authRoutes);
-const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`Servidor funcionando en el puerto ${PORT}.`)

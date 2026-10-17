@@ -175,7 +175,7 @@ const agregarIngrediente = async (req, res) => {
             return res.status(404).json({msg: "Categoría no encontrada."});
         }
 
-        const ingrediente = new Ingrediente({nombre, precio, cantidad, unidad, categoria});
+        const ingrediente = new Ingrediente({nombre, precio, cantidad, categoria});
         await ingrediente.save();
 
         res.status(201).json({msg: "Ingrediente agregado exitosamente."});
@@ -203,14 +203,6 @@ const modificarIngrediente = async (req, res) => {
             return res.status(400).json({msg: "El nombre es un texto vacío."});
         }
         cambios.nombre = nombre;
-    }
-
-    if(unidad !== undefined) {
-        const unidadesValidas = Ingrediente.schema.path("unidad").enumValues;
-        if(!unidadesValidas.includes(unidad)) {
-            return res.status(400).json({msg: "La unidad ingresada no esta admitida en el sistema."});
-        }
-        cambios.unidad = unidad;
     }
 
     if(precio !== undefined) {

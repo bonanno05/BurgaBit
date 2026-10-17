@@ -21,7 +21,8 @@ const ingredienteSchema = new mongoose.Schema({
     },
     unidad: {
         type: String,
-        enum: ['kg', 'gr', 'l', 'ml', 'u']
+        enum: ['u'],
+        default: 'u'
     },
     isDisponible: {
         type: Boolean,

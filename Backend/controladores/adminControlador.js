@@ -8,6 +8,7 @@ import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 import Usuario from "../modelos/Usuario.js";
 import Categoria from "../modelos/Categoria.js";
+import Ingrediente from "../modelos/Ingrediente.js";
 
 
 // Registrar administrador.
@@ -179,6 +180,7 @@ const agregarIngrediente = async (req, res) => {
 
         res.status(201).json({msg: "Ingrediente agregado exitosamente."});
     } catch (error) {
+        console.log(error);
         res.status(500).json({msg: "Error al agregar el ingrediente."});
     }
 }
@@ -186,7 +188,7 @@ const agregarIngrediente = async (req, res) => {
 // Modificar disponibilidad/precio de un ingrediente.
 const modificarIngrediente = async (req, res) => {
     const {id} = req.params;
-    const {precio, isDisponible} = req.body;
+    const {precio, cantidad, isDisponible} = req.body;
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({msg: "Ingrediente inexistente"});
@@ -197,34 +199,41 @@ const modificarIngrediente = async (req, res) => {
     // Revisión de que las modificaciones cumplan con las validaciones establecidas en el schema de la entidad.
     // Modificando el precio, si se ingresa algo.
     if(precio !== undefined) {
-        if(typeof precio !== "Number" || precio < 0) {
+        if(typeof precio !== "number" || precio < 0) {
             return res.status(400).json({msg: "El precio debe ser un número mayor o igual que cero."});
         }
         cambios.precio = precio;
     }
 
+    if(cantidad !== undefined) {
+        if(typeof cantidad !== "number" || cantidad < 0) {
+            return res.status(400).json({msg: "La cantidad no puede ser menor que cero."});
+        }
+        cambios.cantidad = cantidad;
+    }
+
     // Modificando el estado, si se ingresa algo.
     if(isDisponible !== undefined) {
-        if(typeof isDisponible !== "Boolean") {
+        if(typeof isDisponible !== "boolean") {
             return res.status(400).json({msg: "Solo se admiten booleanos."});
         }
         cambios.isDisponible = isDisponible;
     }
 
     // Caso que el administrador inicie el cambio y no toca nada porque se arrepiente.
-    if(Object.keys(cambios).length() === 0) {
+    if(Object.keys(cambios).length === 0) {
         return res.status(400).json({msg: "No se realizo ninguna modificación."});
     }
 
     try {
-        const ingredientes = await Ingredientes.findByIdAndUpdate(
+        const ingrediente = await Ingrediente.findByIdAndUpdate(
             id,
-            {$set: cambios},
-            {new: true, runValidators: true} // new, devuelve el json ya modificado y runValidators ejecuta las validaciones fijadas en el schema.
+            {$set: cambios}, // $set de mongoose, hace los cambios sobre los campos con su respectivo contenido en "cambios", deja el resto intacto.
+            {returnDocument: "after", runValidators: true} // new, devuelve el json ya modificado y runValidators ejecuta las validaciones fijadas en el schema.
         );
 
         // Comprobación de que exista el ingrediente a modificar...
-        if(!ingredientes) {
+        if(!ingrediente) {
             return res.status(404).json({msg: "Ingrediente inexistente."});
         }
         res.status(200).json({msg: "Datos del ingrediente modificados exitosamente."});
@@ -240,5 +249,6 @@ export {
     consultarOrdenPuntualAdmin,
     crearCategoria,
     agregarIngrediente,
-    modificarIngrediente
+    modificarIngrediente,
+    cambiarEstadoUsuario
 }

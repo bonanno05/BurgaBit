@@ -1,11 +1,10 @@
 
-
 /*  
     Express no admite pasar un cuarto parámetro a los middleware, por lo cual, se debe usar
     función que retorna otra función.
     La función externa se encarga de tomar uno o varios roles para juntarlos en un array, se ejecuta
     una única vez con la ejecución de la aplicación, posteriormente, solo opera la función interna que
-    contiene la lógica y trabaja con lo que recibio de la externa.
+    contiene la lógica y trabaja con lo que recibio de la externa
 */
 const permitirRoles = (... roles) => (req, res, next) => {
     
@@ -21,4 +20,9 @@ const esAdmin = permitirRoles('administrador');
 const esCocinero = permitirRoles('cocinero');
 const esCliente = permitirRoles('cliente');
 
-export {permitirRoles, esAdmin, esCocinero, esCliente};
+export {
+    permitirRoles, 
+    esAdmin, 
+    esCocinero, 
+    esCliente
+};

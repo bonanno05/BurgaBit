@@ -11,7 +11,8 @@ import {
     listarOrdenesAdmin, 
     modificarIngrediente, 
     registrarAdmin, 
-    registrarCocinero 
+    registrarCocinero, 
+    reponerStock
 } from "../controladores/adminControlador.js";
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.post("/categorias", chequearAuth, esAdmin, crearCategoria);
 router.post("/ingredientes", chequearAuth, esAdmin, agregarIngrediente);
 
 router.patch("/ingredientes/:id", chequearAuth, esAdmin, modificarIngrediente);
+router.patch("/ingredientes/:id/stock", chequearAuth, esAdmin, reponerStock);
 router.patch("/usuarios/:id", chequearAuth, esAdmin, cambiarEstadoUsuario);
 
 

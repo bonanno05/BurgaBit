@@ -188,7 +188,7 @@ const agregarIngrediente = async (req, res) => {
 // Modificar disponibilidad/precio de un ingrediente.
 const modificarIngrediente = async (req, res) => {
     const {id} = req.params;
-    const {precio, cantidad, isDisponible} = req.body;
+    const {nombre, unidad, precio, cantidad, isDisponible} = req.body;
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({msg: "Ingrediente inexistente"});
@@ -198,6 +198,21 @@ const modificarIngrediente = async (req, res) => {
 
     // Revisión de que las modificaciones cumplan con las validaciones establecidas en el schema de la entidad.
     // Modificando el precio, si se ingresa algo.
+    if(nombre !== undefined) {
+        if(typeof nombre !== "string" || nombre.trim() === "") {
+            return res.status(400).json({msg: "El nombre es un texto vacío."});
+        }
+        cambios.nombre = nombre;
+    }
+
+    if(unidad !== undefined) {
+        const unidadesValidas = Ingrediente.schema.path("unidad").enumValues;
+        if(!unidadesValidas.includes(unidad)) {
+            return res.status(400).json({msg: "La unidad ingresada no esta admitida en el sistema."});
+        }
+        cambios.unidad = unidad;
+    }
+
     if(precio !== undefined) {
         if(typeof precio !== "number" || precio < 0) {
             return res.status(400).json({msg: "El precio debe ser un número mayor o igual que cero."});
@@ -228,8 +243,8 @@ const modificarIngrediente = async (req, res) => {
     try {
         const ingrediente = await Ingrediente.findByIdAndUpdate(
             id,
-            {$set: cambios}, // $set de mongoose, hace los cambios sobre los campos con su respectivo contenido en "cambios", deja el resto intacto.
-            {returnDocument: "after", runValidators: true} // new, devuelve el json ya modificado y runValidators ejecuta las validaciones fijadas en el schema.
+            {$set: cambios},
+            {returnDocument: "after", runValidators: true}
         );
 
         // Comprobación de que exista el ingrediente a modificar...
@@ -242,6 +257,36 @@ const modificarIngrediente = async (req, res) => {
     }
 }
 
+const reponerStock = async (req, res) => {
+    const {id} = req.params;
+    const {cantidad} = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({msg: "Ingrediente inexistente."});
+    }
+
+    if(typeof cantidad !== "number" || cantidad < 0) {
+        return res.status(400).json({msg: "La cantidad a sumar debe ser mayor que cero."});
+    }
+
+    try {
+        const ingrediente = await Ingrediente.findByIdAndUpdate(
+            id,
+            {$inc: {cantidad}},
+            {returnDocument: "after"}
+        );
+        
+        if(!ingrediente) {
+            return res.status(404)({msg: "Ingrediente inexistente."});
+        }
+
+        res.status(200).json({msg: "Stock agregado."});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "Error al agregar stock."});
+    }
+}
+
 export {
     registrarAdmin,
     registrarCocinero,
@@ -250,5 +295,6 @@ export {
     crearCategoria,
     agregarIngrediente,
     modificarIngrediente,
-    cambiarEstadoUsuario
+    cambiarEstadoUsuario,
+    reponerStock
 }

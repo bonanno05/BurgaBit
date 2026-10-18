@@ -73,6 +73,13 @@ const ordenSchema = new mongoose.Schema({
         enum: ['En preparación', 'Listo para retirar', 'Entregado', 'Cancelado'],
         default: 'En preparación'
     },
+    motivoCancelacion: {
+      type: String,
+      trim: true,
+      required: function() {
+        return this.estado === 'Cancelado';
+      }  
+    },
     historialEstados: {
         type: [historialEstadosSchema],
         default: () => [{estado: 'En preparación'}]

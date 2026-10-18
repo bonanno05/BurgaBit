@@ -37,8 +37,4 @@ router.patch("/usuarios/:id", chequearAuth, esAdmin, cambiarEstadoUsuario);
 
 
 
-
-
-
-
 export default router;

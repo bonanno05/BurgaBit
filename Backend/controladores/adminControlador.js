@@ -269,7 +269,7 @@ const reponerStock = async (req, res) => {
         );
         
         if(!ingrediente) {
-            return res.status(404)({msg: "Ingrediente inexistente."});
+            return res.status(404).json({msg: "Ingrediente inexistente."});
         }
 
         res.status(200).json({msg: "Stock agregado."});

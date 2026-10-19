@@ -3,7 +3,7 @@
     Avanzar su estado: En preparación, Lista para retirar, Entregada. 
     Cancelar un pedido con motivo obligatorio, por ejemplo si falta un ingrediente.
 */
-
+import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 
 const ESTADOS_ACTIVOS = ['En preparación', 'Listo para retirar'];

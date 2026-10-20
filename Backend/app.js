@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express from "express";
 import conectarDB from "./config/db.js";
-import dotenv from "dotenv";
 import adminRoutes from "./routes/adminRoutes.js";
 import cocineroRoutes from "./routes/cocineroRoutes.js"
 import ingredienteRoutes from "./routes/ingredienteRoutes.js"

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
@@ -8,17 +9,12 @@ import crearAdminInicial from "./config/crearAdmin.js";
 import cors from "cors";
 
 const app = express();
-app.use(express.json());
 app.use(cors());
-dotenv.config();
-
+app.use(express.json());
 await conectarDB();
 await crearAdminInicial();
 
 const PORT = process.env.PORT || 4000;
-
-
-// ' = ctrl + shift + 27 (Linux) 
 
 // Ruta base de administradores
 app.use("/api/admin", adminRoutes);

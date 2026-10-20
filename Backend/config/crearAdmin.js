@@ -14,7 +14,7 @@ const crearAdminInicial = async () => {
         // Desestructurando process.env para extraer y asignar a variables locales del .js
         const {ADMIN_NOMBRE, ADMIN_APELLIDO, ADMIN_EMAIL, ADMIN_PASSWORD} = process.env;
 
-        if(!ADMIN_EMAIL || !ADMIN_PASSWORD || !ADMIN_EMAIL || !ADMIN_PASSWORD) {
+        if(!ADMIN_NOMBRE || !ADMIN_APELLIDO || !ADMIN_EMAIL || !ADMIN_PASSWORD) {
             console.log("Faltan datos en el .env para crear al administrador inicial.");
             return;
         }

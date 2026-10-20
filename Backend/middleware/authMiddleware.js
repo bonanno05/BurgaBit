@@ -3,8 +3,6 @@ import Usuario from "../modelos/Usuario.js";
 
 const chequearAuth = async (req, res, next) => {
 
-    console.log(req.headers.authorization);
-
     const header = req.headers.authorization;
 
     if(!header || !header.startsWith('Bearer ')) {
@@ -12,7 +10,7 @@ const chequearAuth = async (req, res, next) => {
     }
 
     try {
-        const token = header.split(' ')[1];
+        const [, token] = header.split(' ');
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         req.usuario = await Usuario.findById(decoded.id).select('-password');
@@ -25,7 +23,7 @@ const chequearAuth = async (req, res, next) => {
             return res.status(403).json({msg: 'Usuario desactivado.'});
         }
     } catch (error) {
-        return res.status(403).json({msg: 'Token no válido.'});
+        return res.status(401).json({msg: 'Token no válido o vencido.'});
     }
 
     next();

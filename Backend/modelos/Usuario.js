@@ -53,15 +53,15 @@ const usuarioSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
-// function () hace referencia al snippet actual.
-// () => tiene snippet global, no se podría usar el this.password.
+// Se usa function y no flecha: Mongoose ejecuta el hook con this = el documento que se guarda.
+// Una función flecha no tiene this propio (en un módulo es undefined) y this.password fallaría.
 
 // Hasheo de contraseña
-usuarioSchema.pre('save', async function (next) {
+usuarioSchema.pre('save', async function () {
     
     // Evitar que un password hasheado sea vuelto a hashear.
     if(!this.isModified('password')) {
-        return; // Para la version de Moongose 9 instalada, no hace falta el next().
+        return; // Mongoose 9 espera la promesa de la función async: no hace falta next().
     }
     // SALT_ROUNDS = 10
     const salt = await bcrypt.genSalt(10)

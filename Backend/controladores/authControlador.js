@@ -14,14 +14,18 @@ const registrar = async (req, res) => {
 
     const {nombre, apellido, email, password} = req.body;
 
-    const existeUsuario = await Usuario.findOne({email});
-
-    // Detener ejecución innecesaria por duplicados.
-    if(existeUsuario) {
-        return res.status(400).json({msg: "Usuario ya registrado."}); // 400 = Bad Request
+     // El email tiene que ser un texto: si falta o llega otra cosa, no se consulta la base.
+    if(typeof email !== "string" || email.trim() === "") {
+        return res.status(400).json({msg: "El email es obligatorio."}); // 400 = Bad Request
     }
 
     try {
+
+        const existeUsuario = await Usuario.findOne({email});
+        // Detener ejecución innecesaria por duplicados.
+        if(existeUsuario) {
+            return res.status(409).json({msg: "Usuario ya registrado."}); // 409 = Conflicto
+        }
         const usuario = new Usuario({
             nombre,
             apellido,
@@ -29,7 +33,7 @@ const registrar = async (req, res) => {
             password
         });
 
-        const usuarioGuardado = await usuario.save();
+        await usuario.save();
 
         res.status(201).json({msg: "Usuario registrado."}); // 201 = Petición exitosa
     } catch(error) {
@@ -44,42 +48,55 @@ const autenticar = async (req, res) => {
     // Desestructuración
     const {email, password} = req.body;
 
-    // Comprobar si existe el usuario...
-    const usuario = await Usuario.findOne({email}).select("+password");
-
-    if(!usuario) {
-      return res.status(401).json({msg: 'Usuario inválido.'}); // 401 = No autorizado
+    // Email y contraseña tienen que ser textos: si falta alguno o llega otra cosa, no se consulta la base.
+    if(typeof email !== "string" || typeof password !== "string") {
+        return res.status(400).json({msg: 'Email y contraseña son obligatorios.'}); // 400 = Bad Request
     }
 
-    if(!usuario.isActivo) {
-        return res.status(403).json({msg: 'Usuario desactivado.'}); // 403 = Prohibido
-    }
+    try {
+        // Comprobar si existe el usuario (pidiendo la contraseña, que el esquema oculta).
+        const usuario = await Usuario.findOne({email}).select("+password");
 
-    // Validar contraseña
-    const esPasswordValida = await usuario.comprobarPassword(password);
-    if(!esPasswordValida) {
-        return res.status(401).json({msg: 'Contraseña inválida'});
-    } else {
+        // Mismo mensaje si falla el email o la contraseña: así no se revela qué emails están registrados.
+        if(!usuario || !(await usuario.comprobarPassword(password))) {
+            return res.status(401).json({msg: 'Email o contraseña incorrectos.'}); // 401 = No autorizado
+        }
+
+        // Recién con las credenciales correctas se informa si la cuenta está desactivada.
+        if(!usuario.isActivo) {
+            return res.status(403).json({msg: 'Usuario desactivado.'}); // 403 = Prohibido
+        }
+
         res.json({token: generarJWT(usuario)});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: 'Error al iniciar sesión.'}); // 500 = Error interno del servidor
     }
 
 }
 
 const actualizarPerfil = async (req, res) => {
-    const usuario = await Usuario.findById(req.usuario._id);
-
-    if(!usuario) {
-        return res.status(404).json({msg: 'Usuario no encontrado.'}); // 404 = No encontrado
-    }
+    // Solo se toman los campos que el usuario puede cambiar de su perfil.
+    const {nombre, apellido, foto} = req.body;
 
     try {
-        usuario.nombre = req.body.nombre;
-        usuario.apellido = req.body.apellido;
-        usuario.foto = req.body.foto;
+        // req.usuario ya es el documento del usuario logueado: lo dejó chequearAuth.
+        const usuario = req.usuario;
+
+        // Se modifica solo lo que llegó en el body; lo demás queda como estaba.
+        if(nombre !== undefined) {
+            usuario.nombre = nombre;
+        }
+        if(apellido !== undefined) {
+            usuario.apellido = apellido;
+        }
+        if(foto !== undefined) {
+            usuario.foto = foto;
+        }
 
         const usuarioModificado = await usuario.save();
-        return res.status(200).json({msg: 'Usuario modificado correctamente.'}, usuarioModificado); // 200 = OK
-    } catch (error) {
+        return res.status(200).json({msg: 'Usuario modificado correctamente.', usuario: usuarioModificado}); 
+      } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: 'Error al actualizar el usuario.'});
     }

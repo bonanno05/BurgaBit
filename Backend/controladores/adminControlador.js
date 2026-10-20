@@ -142,7 +142,9 @@ const consultarOrdenPuntualAdmin = async(req, res) => {
 const crearCategoria = async (req, res) => {
 
     const {nombre, minimo, maximo, paso} = req.body;
-
+    if (minimo > maximo) {
+        return res.status(400).json({msg: "El mínimo no puede ser mayor que el máximo."});
+    }
     try {
         const existe = await Categoria.findOne({nombre});
 
@@ -161,7 +163,7 @@ const crearCategoria = async (req, res) => {
 
 // Agregar ingrediente
 const agregarIngrediente = async (req, res) => {
-    const {nombre, precio, cantidad, unidad, categoria} = req.body;
+    const {nombre, precio, cantidad, categoria} = req.body;
 
     // Primero chequear que existe categoria...
     if(!mongoose.Types.ObjectId.isValid(categoria)) {
@@ -188,7 +190,7 @@ const agregarIngrediente = async (req, res) => {
 // Modificar disponibilidad/precio de un ingrediente.
 const modificarIngrediente = async (req, res) => {
     const {id} = req.params;
-    const {nombre, unidad, precio, cantidad, isDisponible} = req.body;
+    const {nombre, precio, cantidad, isDisponible} = req.body;
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({msg: "Ingrediente inexistente"});
@@ -257,8 +259,8 @@ const reponerStock = async (req, res) => {
         return res.status(400).json({msg: "Ingrediente inexistente."});
     }
 
-    if(typeof cantidad !== "number" || cantidad < 0) {
-        return res.status(400).json({msg: "La cantidad a sumar debe ser mayor que cero."});
+    if(!Number.isInteger(cantidad) || cantidad <= 0) {
+        return res.status(400).json({msg: "La cantidad a sumar debe ser un numero entero mayor que cero."});
     }
 
     try {
@@ -269,7 +271,7 @@ const reponerStock = async (req, res) => {
         );
         
         if(!ingrediente) {
-            return res.status(404)({msg: "Ingrediente inexistente."});
+            return res.status(404).json({msg: "Ingrediente inexistente."});
         }
 
         res.status(200).json({msg: "Stock agregado."});

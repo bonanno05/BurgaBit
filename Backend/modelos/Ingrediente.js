@@ -19,11 +19,6 @@ const ingredienteSchema = new mongoose.Schema({
         min: 0,
         default: 0
     },
-    unidad: {
-        type: String,
-        enum: ['u'],
-        default: 'u'
-    },
     isDisponible: {
         type: Boolean,
         default: true

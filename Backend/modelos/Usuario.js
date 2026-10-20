@@ -61,7 +61,7 @@ usuarioSchema.pre('save', async function () {
     
     // Evitar que un password hasheado sea vuelto a hashear.
     if(!this.isModified('password')) {
-        return; // Mongoose 9 espera la promesa de la función async: no hace falta next().
+        return; // Para la version de Mongoose 9 instalada, no hace falta el next().
     }
     // SALT_ROUNDS = 10
     const salt = await bcrypt.genSalt(10)

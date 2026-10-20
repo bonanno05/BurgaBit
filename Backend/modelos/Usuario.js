@@ -57,11 +57,11 @@ const usuarioSchema = new mongoose.Schema({
 // () => tiene snippet global, no se podría usar el this.password.
 
 // Hasheo de contraseña
-usuarioSchema.pre('save', async function (next) {
+usuarioSchema.pre('save', async function () {
     
     // Evitar que un password hasheado sea vuelto a hashear.
     if(!this.isModified('password')) {
-        return; // Para la version de Moongose 9 instalada, no hace falta el next().
+        return; // Para la version de Mongoose 9 instalada, no hace falta el next().
     }
     // SALT_ROUNDS = 10
     const salt = await bcrypt.genSalt(10)

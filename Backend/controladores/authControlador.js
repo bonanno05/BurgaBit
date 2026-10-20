@@ -73,12 +73,15 @@ const actualizarPerfil = async (req, res) => {
     }
 
     try {
-        usuario.nombre = req.body.nombre;
-        usuario.apellido = req.body.apellido;
-        usuario.foto = req.body.foto;
+        const { nombre, apellido, foto} = req.body;
 
-        const usuarioModificado = await usuario.save();
-        return res.status(200).json({msg: 'Usuario modificado correctamente.'}, usuarioModificado); // 200 = OK
+        if (nombre !== undefined) usuario.nombre = nombre;
+        if (apellido !== undefined) usuario.apellido = apellido;
+        if (foto !== undefined) usuario.foto = foto;
+
+        await usuario.save();
+        return res.status(200).json({msg: 'Usuario modificado correctamente.', usuario }); // 200 = OK
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({ msg: 'Error al actualizar el usuario.'});

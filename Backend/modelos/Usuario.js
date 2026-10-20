@@ -53,8 +53,8 @@ const usuarioSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
-// function () hace referencia al snippet actual.
-// () => tiene snippet global, no se podría usar el this.password.
+// Se usa function y no flecha: Mongoose ejecuta el hook con this = el documento que se guarda.
+// Una función flecha no tiene this propio (en un módulo es undefined) y this.password fallaría.
 
 // Hasheo de contraseña
 usuarioSchema.pre('save', async function () {

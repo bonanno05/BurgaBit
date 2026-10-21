@@ -6,14 +6,14 @@
 import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 
-const ESTADOS_ACTIVOS = ['Pendiente', 'En preparación', 'Listo para retirar'];
+const ESTADOS_ACTIVOS = ['Pendiente', 'En preparación', 'Lista para retirar'];
 // Diccionario clave-valor para validar las transiciones de estados de pedidos.
 const TRANSICIONES = {
-    'Pendiente': ['En preparación', 'Cancelado'], // La cocina acepta el pedido o lo cancela.
-    'En preparación':  ['Lista para retirar', 'Cancelado'],
-    'Listo para retirar': ['Entregado'], // Ya esta hecha, no se puede cancelar.
-    'Entregado': [], // Estado final.
-    'Cancelado': [] // Estado final.
+    'Pendiente': ['En preparación', 'Cancelada'], // La cocina acepta el pedido o lo cancela.
+    'En preparación':  ['Lista para retirar', 'Cancelada'],
+    'Lista para retirar': ['Entregada'], // Ya esta hecha, no se puede cancelar.
+    'Entregada': [], // Estado final.
+    'Cancelada': [] // Estado final.
 }
 
 // Consultar todas los pedidos (solo activos)
@@ -44,7 +44,7 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
         return res.status(400).json({msg: "Estado inválido"});
     }
 
-    if(estado === 'Cancelado' && (typeof motivoCancelacion !== "string" || motivoCancelacion.trim() === "")){  
+    if(estado === 'Cancelada' && (typeof motivoCancelacion !== "string" || motivoCancelacion.trim() === "")){  
         return res.status(400).json({msg: "Para cancelar un pedido se debe indicar un motivo."});
     }
 

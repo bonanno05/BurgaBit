@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelado'];
+const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelada'];
 
 // Ingredientes al comprar
 const ingredienteOrdenSchema = new mongoose.Schema({
@@ -53,6 +53,10 @@ const historialEstadosSchema = new mongoose.Schema({
     },
     usuario: {
         type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' // Referencia directa a la clase Usuario.
+    },
+    motivo: {
+        type: String,
+        trim: true //Solo se completa cuando se cancela.
     }
 }, {_id: false});
 
@@ -75,13 +79,6 @@ const ordenSchema = new mongoose.Schema({
         type: String,
         enum: ESTADOS,
         default: 'Pendiente'
-    },
-    motivoCancelacion: {
-      type: String,
-      trim: true,
-      required: function() {
-        return this.estado === 'Cancelado';
-      }  
     },
     historialEstados: {
         type: [historialEstadosSchema],

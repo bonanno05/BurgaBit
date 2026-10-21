@@ -75,6 +75,10 @@ const cambiarEstadoUsuario = async (req, res) => {
     // body = viene del cuerpo del request.
     const {id} = req.params;
 
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({msg: "Id inválido."});
+    }
+
     try {
         const usuario = await Usuario.findById(id);
 

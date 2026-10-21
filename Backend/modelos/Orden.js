@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelado'];
+
 // Ingredientes al comprar
 const ingredienteOrdenSchema = new mongoose.Schema({
     ingrediente: {
@@ -42,6 +44,7 @@ const productoArmadoSchema = new mongoose.Schema({
 const historialEstadosSchema = new mongoose.Schema({
     estado: {
         type: String,
+        enum: ESTADOS,
         required: true
     },
     fecha: {
@@ -70,8 +73,8 @@ const ordenSchema = new mongoose.Schema({
     },
     estado: {
         type: String,
-        enum: ['En preparación', 'Listo para retirar', 'Entregado', 'Cancelado'],
-        default: 'En preparación'
+        enum: ESTADOS,
+        default: 'Pendiente'
     },
     motivoCancelacion: {
       type: String,
@@ -82,9 +85,9 @@ const ordenSchema = new mongoose.Schema({
     },
     historialEstados: {
         type: [historialEstadosSchema],
-        default: () => [{estado: 'En preparación'}]
+        default: () => [{estado: 'Pendiente'}]
     }
 }, {timestamps: true});
 
-const Orden = mongoose.model('Orden', ordenSchema);
+const Orden = mongoose.model('Orden', ordenSchema, 'ordenes');
 export default Orden;

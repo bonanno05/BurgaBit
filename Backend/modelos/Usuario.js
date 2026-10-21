@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 // index: agiliza las búsquedas sobre elementos utilizados frecuentemente.
 // trim: elimina espacios en blanco al principio y al final de un string.
 // select: permite ocultar información sensible al hacer una consulta.
-// timestamps: Mongoose agrega y actualiza solo los campos createdAt y updateAt.
+// timestamps: Mongoose agrega y actualiza solo los campos createdAt y updatedAt.
 // match: emplea una expresión regular para delimitar los carácteres válidos que puede emplear el usuario.
 
 const usuarioSchema = new mongoose.Schema({

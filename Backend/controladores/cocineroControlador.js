@@ -6,13 +6,14 @@
 import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 
-const ESTADOS_ACTIVOS = ['En preparación', 'Listo para retirar'];
+const ESTADOS_ACTIVOS = ['Pendiente', 'En preparación', 'Lista para retirar'];
 // Diccionario clave-valor para validar las transiciones de estados de pedidos.
 const TRANSICIONES = {
-    'En preparación': ['Listo para retirar', 'Cancelado'], // Preparacion transiciona a dos estados posibles.
-    'Listo para retirar': ['Entregado', 'Cancelado'], // Listo para retirar puede transicionar a dos estados posibles.
-    'Entregado': [], // Estado final.
-    'Cancelado': [] // Estado final.
+    'Pendiente': ['En preparación', 'Cancelada'], // La cocina acepta el pedido o lo cancela.
+    'En preparación':  ['Lista para retirar', 'Cancelada'],
+    'Lista para retirar': ['Entregada'], // Ya esta hecha, no se puede cancelar.
+    'Entregada': [], // Estado final.
+    'Cancelada': [] // Estado final.
 }
 
 // Consultar todas los pedidos (solo activos)
@@ -43,7 +44,7 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
         return res.status(400).json({msg: "Estado inválido"});
     }
 
-    if(estado === 'Cancelado' && !motivoCancelacion?.trim()) {
+    if(estado === 'Cancelada' && (typeof motivoCancelacion !== "string" || motivoCancelacion.trim() === "")){  
         return res.status(400).json({msg: "Para cancelar un pedido se debe indicar un motivo."});
     }
 
@@ -59,12 +60,13 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
         }
 
         orden.estado = estado;
-        if(estado === 'Cancelado') {
-            orden.motivoCancelacion = motivoCancelacion.trim();
-        }
 
-        // Registro de que cocinero hizo el cambio.
-        orden.historialEstados.push({estado, usuario: req.usuario._id});
+        // Registro de qué cocinero hizo el cambio y, si canceló, el motivo.
+        const cambio = {estado, usuario: req.usuario._id};
+        if(estado === 'Cancelada') {
+            cambio.motivo = motivoCancelacion.trim();
+        }
+        orden.historialEstados.push(cambio);
 
         await orden.save();
 

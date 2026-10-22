@@ -13,14 +13,25 @@ import { esAdmin, permitirRoles } from "../middleware/rolesMiddleware.js";
 const router = express.Router();
 
 // Petición GET, no usa JSON
+// Lista todo.
 router.get("/",chequearAuth, permitirRoles("administrador", "cocinero"), listarIngredientes);           
 
 // Petición GET, no usa JSON
+// Dado que es de acceso público no lista los isDisponible = false y cantidad = 0
 router.get("/menu", chequearAuth, listarMenu);  //cualquier usuario logueado
 
 // Mismo que el de arriba, pero se necesita en la URL la id del ingrediente.                                  
 router.get("/:id",chequearAuth, permitirRoles("administrador", "cocinero"), consultarIngrediente);      
 
+/*
+    Modelo JSON para agregar ingredientes
+    {
+        "nombre":"zanahoria",
+        "precio": 10,
+        "cantidad": 200,
+        "categoria": "6ad97c02b8c0ba77c4444238"
+    }   
+*/
 router.post("/", chequearAuth, esAdmin, agregarIngrediente);        
 
 /*

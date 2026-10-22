@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 import Categoria from "../modelos/Categoria.js";
 import Ingrediente from "../modelos/Ingrediente.js";
+import devolverStock from "../config/devolverStock.js"
 
 const consultarHistorial = async (req, res) => {
     
@@ -22,12 +23,18 @@ const consultarHistorial = async (req, res) => {
     }
 }
 
+/*
+    Cambie el crearOrden anterior porque no respetaba una regla de la propuesta:
+    Categoría determina el mínimo de cada ingrediente y máximo de ingrediente, así como a que paso corresponde, no los ingredientes.
+    Extraje los resguardos contra null del método y un par de cosas útiles.
+*/
 const crearOrden = async (req, res) => {
     const {productos} = req.body;
     const descontados = []; // Ingredientes ya descontados, si se cancela la orden, se devuelven al stock.
 
     // Validación del pedido, requiere tener al menos un producto.
     // producto = conjunto de ingredientes ya seleccionados.
+    // !producto = resguardo contra nulls y cosas raras
     if(!Array.isArray(productos) || productos.length === 0) {
         return res.status(400).json({msg: "El pedido debe tener al menos un producto."});
     }
@@ -39,7 +46,7 @@ const crearOrden = async (req, res) => {
 
         // Armar cada producto con los dato existentes en base de datos (ingredientes, categorias, etc.).
         for(const producto of productos) {
-            if(!Array.isArray(producto.ingredientes) || producto.ingredientes.length === 0) {
+            if(!producto || !Array.isArray(producto.ingredientes) || producto.ingredientes.length === 0) {
                 return res.status(400).json({msg: "Cada producto debe tener al menos un ingrediente."});
             }
 
@@ -48,7 +55,8 @@ const crearOrden = async (req, res) => {
             let subtotal = 0;
 
             for(const item of producto.ingredientes) {
-                if(!mongoose.Types.ObjectId.isValid(item.ingrediente)) {
+                // !item = resguardo contra cosas raras
+                if(!item || !mongoose.Types.ObjectId.isValid(item.ingrediente)) {
                     return res.status(400).json({msg: "Ingrediente ingresado es inválido."});
                 }
                 if(!Number.isInteger(item.cantidad) || item.cantidad < 1) {

@@ -177,7 +177,7 @@ const consultarIngrediente = async (req, res) => {
     }
 }
 
-const listarMenu = async (req, res) => {
+const listarMenu = async (_req, res) => {
     try {
         const ingredientes = await Ingrediente.find({
             isDisponible: true,
@@ -189,11 +189,23 @@ const listarMenu = async (req, res) => {
     }
 }
 
+// Casos donde se cancela el pedido, etc.
+const devolverStock = async (descontados) => {
+    for(const item of descontados) {
+        await Ingrediente.updateOne(
+            {_id: item.ingrediente},
+            {$inc: {cantidad: item.cantidad}}
+        );
+    }
+};
+
+
 export {
     agregarIngrediente,
     modificarIngrediente,
     reponerStock,
     listarIngredientes,
     consultarIngrediente,
-    listarMenu
+    listarMenu,
+    devolverStock
 };

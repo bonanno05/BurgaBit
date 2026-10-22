@@ -5,15 +5,16 @@
 */
 import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
+import devolverStock from "../config/devolverStock.js";
 
 const ESTADOS_ACTIVOS = ['Pendiente', 'En preparación', 'Lista para retirar'];
 // Diccionario clave-valor para validar las transiciones de estados de pedidos.
 const TRANSICIONES = {
-    'Pendiente': ['En preparación', 'Cancelada'], // La cocina acepta el pedido o lo cancela.
-    'En preparación':  ['Lista para retirar', 'Cancelada'],
+    'Pendiente': ['En preparación', 'Cancelado'], // La cocina acepta el pedido o lo cancela.
+    'En preparación':  ['Lista para retirar', 'Cancelado'],
     'Lista para retirar': ['Entregada'], // Ya esta hecha, no se puede cancelar.
     'Entregada': [], // Estado final.
-    'Cancelada': [] // Estado final.
+    'Cancelado': [] // Estado final.
 }
 
 // Consultar todas los pedidos (solo activos)
@@ -44,7 +45,7 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
         return res.status(400).json({msg: "Estado inválido"});
     }
 
-    if(estado === 'Cancelada' && (typeof motivoCancelacion !== "string" || motivoCancelacion.trim() === "")){  
+    if(estado === 'Cancelado' && (typeof motivoCancelacion !== "string" || motivoCancelacion.trim() === "")){  
         return res.status(400).json({msg: "Para cancelar un pedido se debe indicar un motivo."});
     }
 
@@ -63,12 +64,18 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
 
         // Registro de qué cocinero hizo el cambio y, si canceló, el motivo.
         const cambio = {estado, usuario: req.usuario._id};
-        if(estado === 'Cancelada') {
+        if(estado === 'Cancelado') {
             cambio.motivo = motivoCancelacion.trim();
         }
         orden.historialEstados.push(cambio);
 
         await orden.save();
+
+        if(estado === 'Cancelado') {
+            for(const producto of orden.productos) {
+                await devolverStock(producto.ingredientes);
+            }
+        }
 
         res.status(200).json(orden);
     } catch (error) {

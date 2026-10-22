@@ -60,24 +60,31 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
             return res.status(400).json({msg: "No existe tal transición en el sistema."});
         }
 
-        orden.estado = estado;
-
-        // Registro de qué cocinero hizo el cambio y, si canceló, el motivo.
+               // Registro de qué cocinero hizo el cambio y, si canceló, el motivo.
         const cambio = {estado, usuario: req.usuario._id};
         if(estado === 'Cancelado') {
             cambio.motivo = motivoCancelacion.trim();
         }
-        orden.historialEstados.push(cambio);
 
-        await orden.save();
+        // Guarda el cambio solo si la orden sigue en el estado que se leyó, en una sola operación.
+        // Así dos cambios a la vez (por ejemplo, un doble clic al cancelar) no se aplican los dos.
+        const actualizada = await Orden.findOneAndUpdate(
+            {_id: id, estado: orden.estado},
+            {$set: {estado}, $push: {historialEstados: cambio}},
+            {returnDocument: "after", runValidators: true}
+        );
+
+        if(!actualizada) {
+            return res.status(409).json({msg: "El pedido cambió de estado mientras tanto. Volvé a consultarlo."});
+        }
 
         if(estado === 'Cancelado') {
-            for(const producto of orden.productos) {
+            for(const producto of actualizada.productos) {
                 await devolverStock(producto.ingredientes);
             }
         }
 
-        res.status(200).json(orden);
+        res.status(200).json(actualizada);
     } catch (error) {
         res.status(500).json({msg: "Error al modificar el estado del pedido."});
     }

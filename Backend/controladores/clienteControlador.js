@@ -11,6 +11,9 @@ import Categoria from "../modelos/Categoria.js";
 import Ingrediente from "../modelos/Ingrediente.js";
 import devolverStock from "../config/devolverStock.js"
 
+// Cuántas unidades del mismo ingrediente puede llevar un producto (README: "hasta 3 del mismo").
+const MAX_POR_INGREDIENTE = 3;
+
 const consultarHistorial = async (req, res) => {
     
     try {
@@ -54,13 +57,23 @@ const crearOrden = async (req, res) => {
             const cantidadPorCategoria = {}; // Usa id de la categoría.
             let subtotal = 0;
 
+            const vistos = new Set(); // Ids ya revisados en este producto, para detectar repetidos.
+
             for(const item of producto.ingredientes) {
                 // !item = resguardo contra cosas raras
                 if(!item || !mongoose.Types.ObjectId.isValid(item.ingrediente)) {
                     return res.status(400).json({msg: "Ingrediente ingresado es inválido."});
                 }
-                if(!Number.isInteger(item.cantidad) || item.cantidad < 1) {
-                    return res.status(400).json({msg: "La cantidad debe ser igual o mayor que uno."});
+                
+                // Un ingrediente no se repite en el mismo producto: para más unidades se usa la cantidad.
+                const id = item.ingrediente.toLowerCase();
+                if(vistos.has(id)) {
+                    return res.status(400).json({msg: "No se puede repetir un ingrediente en el mismo producto: usá la cantidad."});
+                }
+                vistos.add(id);
+
+                if(!Number.isInteger(item.cantidad) || item.cantidad < 1 || item.cantidad > MAX_POR_INGREDIENTE) {
+                    return res.status(400).json({msg: `La cantidad de cada ingrediente debe ser un número entero entre 1 y ${MAX_POR_INGREDIENTE}.`});
                 }
 
                 const ingrediente = await Ingrediente.findById(item.ingrediente).populate("categoria");
@@ -130,7 +143,49 @@ const crearOrden = async (req, res) => {
     }
 }
 
+// Cancelar un pedido propio, solo mientras siga Pendiente.
+const cancelarOrden = async (req, res) => {
+    const {id} = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({msg: "Id del pedido inválido."});
+    }
+
+    try {
+        // Cancela solo si la orden es de este cliente y sigue Pendiente, en una sola operación.
+        const orden = await Orden.findOneAndUpdate(
+            {_id: id, cliente: req.usuario._id, estado: 'Pendiente'},
+            {
+                $set: {estado: 'Cancelado'},
+                $push: {historialEstados: {estado: 'Cancelado', usuario: req.usuario._id, motivo: 'Cancelado por el cliente.'}}
+            },
+            {returnDocument: "after", runValidators: true}
+        );
+
+        // Si no se canceló, se averigua por qué para responder bien.
+        if(!orden) {
+            const existe = await Orden.findOne({_id: id, cliente: req.usuario._id});
+
+            if(!existe) {
+                return res.status(404).json({msg: "Pedido no encontrado."});
+            }
+            return res.status(409).json({msg: `Solo se puede cancelar un pedido Pendiente (este está "${existe.estado}").`});
+        }
+
+        // Devolver al stock los ingredientes de todos los productos del pedido.
+        for(const producto of orden.productos) {
+            await devolverStock(producto.ingredientes);
+        }
+
+        res.status(200).json(orden);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "Error al cancelar el pedido."});
+    }
+}
+
 export {
     consultarHistorial,
-    crearOrden
+    crearOrden,
+    cancelarOrden
 }

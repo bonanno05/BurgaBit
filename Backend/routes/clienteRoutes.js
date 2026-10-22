@@ -7,8 +7,10 @@ import { crearOrden, consultarHistorial } from "../controladores/clienteControla
 
 const router = Express.Router();
 
+// ROL: CLIENTE Y TOKEN DE USUARIO
+
 // No usa ningún JSON, mera petición GET
-router.get("/historial", chequearAuth, esCliente, consultarHistorial);
+router.get("/", chequearAuth, esCliente, consultarHistorial);
 
 /*
     JSON para crear ordenes.
@@ -31,6 +33,6 @@ router.get("/historial", chequearAuth, esCliente, consultarHistorial);
     }
 
 */
-router.post("/crearOrden", chequearAuth, esCliente, crearOrden);
+router.post("/", chequearAuth, esCliente, crearOrden);
 
 export default router;

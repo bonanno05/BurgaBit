@@ -13,7 +13,7 @@ const router = express.Router();
         "password": "..."
     }
 */
-router.post("/login", autenticar);
+router.post("/login", autenticar); 
 
 /*
     Modelo JSON de registro (POST)
@@ -34,7 +34,7 @@ router.post("/registrar", registrar);
         "foto": "..." <- String
     }
 */
-router.put("/perfil", chequearAuth, actualizarPerfil);
+router.put("/", chequearAuth, actualizarPerfil);
 
 
 
@@ -45,7 +45,7 @@ router.put("/perfil", chequearAuth, actualizarPerfil);
         "passNueva": "..."
     }
 */
-router.put("/perfil/password", chequearAuth, actualizarPassword);
+router.put("/password", chequearAuth, actualizarPassword);
 
 
 export default router;

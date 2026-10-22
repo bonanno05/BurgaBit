@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 // index: agiliza las búsquedas sobre elementos utilizados frecuentemente.
-// trim: elimina espacios en blanco y al final de un string.
+// trim: elimina espacios en blanco al principio y al final de un string.
 // select: permite ocultar información sensible al hacer una consulta.
-// timestamp: Mongoose agrega createdAt y updateAt.
+// timestamps: Mongoose agrega y actualiza solo los campos createdAt y updatedAt.
 // match: emplea una expresión regular para delimitar los carácteres válidos que puede emplear el usuario.
 
 const usuarioSchema = new mongoose.Schema({
@@ -53,15 +53,15 @@ const usuarioSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
-// function () hace referencia al snippet actual.
-// () => tiene snippet global, no se podría usar el this.password.
+// Se usa function y no flecha: Mongoose ejecuta el hook con this = el documento que se guarda.
+// Una función flecha no tiene this propio (en un módulo es undefined) y this.password fallaría.
 
 // Hasheo de contraseña
-usuarioSchema.pre('save', async function (next) {
+usuarioSchema.pre('save', async function () {
     
     // Evitar que un password hasheado sea vuelto a hashear.
     if(!this.isModified('password')) {
-        return; // Para la version de Moongose 9 instalada, no hace falta el next().
+        return; // Para la version de Mongoose 9 instalada, no hace falta el next().
     }
     // SALT_ROUNDS = 10
     const salt = await bcrypt.genSalt(10)

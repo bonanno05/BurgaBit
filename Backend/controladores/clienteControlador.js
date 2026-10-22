@@ -5,7 +5,6 @@
     Cancelar un pedido mientras siga Pendiente.
 */
 
-import Usuario from "../modelos/Usuario.js";
 import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 import Categoria from "../modelos/Categoria.js";

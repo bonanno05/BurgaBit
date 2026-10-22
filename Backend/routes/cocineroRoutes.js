@@ -9,7 +9,7 @@ const router = express.Router();
 // ROL COCINERO Y TOKEN DE USUARIO
 
 // Petición GET, no usa JSON
-router.get("/ordenes", chequearAuth, esCocinero, listarOrdenesCocinero);
+router.get("/", chequearAuth, esCocinero, listarOrdenesCocinero);
 
 /*
     Modelo JSON para cambiar el estado de una orden/pedido
@@ -34,7 +34,7 @@ router.get("/ordenes", chequearAuth, esCocinero, listarOrdenesCocinero);
 
 
 */
-router.patch("/ordenes/:id/estado", chequearAuth, esCocinero, cambiarEstadoOrdenCocinero);
+router.patch("/:id", chequearAuth, esCocinero, cambiarEstadoOrdenCocinero);
 
 
 

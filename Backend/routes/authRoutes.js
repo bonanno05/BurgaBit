@@ -27,7 +27,7 @@ router.post("/login", autenticar);
 router.post("/registrar", registrar);
 
 /*
-    Modelo JSON editar perfil (PUT) (solo nombre, apellido y foto)
+    Modelo JSON editar perfil del usuario logueado (PUT) (solo nombre, apellido y foto)
     {
         "nombre": "Juan",
         "apellido": "Perez",
@@ -36,10 +36,8 @@ router.post("/registrar", registrar);
 */
 router.put("/", chequearAuth, actualizarPerfil);
 
-
-
 /*
-    Modelo JSON cambio de password (PUT)
+    Modelo JSON cambio de password del usuario logueado (PUT)
     {
         "passActual": "...",
         "passNueva": "..."

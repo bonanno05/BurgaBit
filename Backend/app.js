@@ -23,9 +23,6 @@ app.use("/api/admin", adminRoutes);
 // Ruta base de cocineros
 app.use("/api/cocinero", cocineroRoutes);
 
-// Ruta base de los clientes
-app.use("/api/clientes", clienteRoutes);
-
 // Ruta pública de login, etc.
 app.use("/api/auth", authRoutes);
 

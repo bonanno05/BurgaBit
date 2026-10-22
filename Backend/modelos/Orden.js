@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelada'];
+const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelado'];
 
 // Ingredientes al comprar
 const ingredienteOrdenSchema = new mongoose.Schema({

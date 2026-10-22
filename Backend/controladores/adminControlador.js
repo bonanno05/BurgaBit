@@ -188,7 +188,7 @@ const agregarIngrediente = async (req, res) => {
 // Modificar disponibilidad/precio de un ingrediente.
 const modificarIngrediente = async (req, res) => {
     const {id} = req.params;
-    const {nombre, unidad, precio, cantidad, isDisponible} = req.body;
+    const {nombre, precio, cantidad, isDisponible} = req.body;
 
     if(!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({msg: "Ingrediente inexistente"});

@@ -2,7 +2,8 @@ import express from "express";
 import conectarDB from "./config/db.js";
 import dotenv from "dotenv";
 import adminRoutes from "./routes/adminRoutes.js";
-import cocineroRoutes from "./routes/cocineroRoutes.js"
+import cocineroRoutes from "./routes/cocineroRoutes.js";
+import clienteRoutes from "./routes/clienteRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import crearAdminInicial from "./config/crearAdmin.js";
 import cors from "cors";
@@ -25,6 +26,9 @@ app.use("/api/admin", adminRoutes);
 
 // Ruta base de cocineros
 app.use("/api/cocinero", cocineroRoutes);
+
+// Ruta base de los clientes
+app.use("/api/clientes", clienteRoutes);
 
 // Ruta pública de login, etc.
 app.use("/api/auth", authRoutes);

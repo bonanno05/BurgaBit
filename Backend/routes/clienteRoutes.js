@@ -3,7 +3,7 @@
 import Express from "express";
 import chequearAuth from "../middleware/authMiddleware.js";
 import { esCliente } from "../middleware/rolesMiddleware.js";
-import { crearOrden, consultarHistorial } from "../controladores/clienteControlador.js";
+import { crearOrden, consultarHistorial, cancelarOrden } from "../controladores/clienteControlador.js";
 
 const router = Express.Router();
 
@@ -34,5 +34,10 @@ router.get("/", chequearAuth, esCliente, consultarHistorial);
 
 */
 router.post("/", chequearAuth, esCliente, crearOrden);
+
+/*
+    Cancelar un pedido propio, solo si está Pendiente. No usa JSON: el id del pedido va en la URL.
+*/
+router.patch("/:id/cancelar", chequearAuth, esCliente, cancelarOrden);
 
 export default router;

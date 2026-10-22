@@ -143,7 +143,49 @@ const crearOrden = async (req, res) => {
     }
 }
 
+// Cancelar un pedido propio, solo mientras siga Pendiente.
+const cancelarOrden = async (req, res) => {
+    const {id} = req.params;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({msg: "Id del pedido inválido."});
+    }
+
+    try {
+        // Cancela solo si la orden es de este cliente y sigue Pendiente, en una sola operación.
+        const orden = await Orden.findOneAndUpdate(
+            {_id: id, cliente: req.usuario._id, estado: 'Pendiente'},
+            {
+                $set: {estado: 'Cancelado'},
+                $push: {historialEstados: {estado: 'Cancelado', usuario: req.usuario._id, motivo: 'Cancelado por el cliente.'}}
+            },
+            {returnDocument: "after", runValidators: true}
+        );
+
+        // Si no se canceló, se averigua por qué para responder bien.
+        if(!orden) {
+            const existe = await Orden.findOne({_id: id, cliente: req.usuario._id});
+
+            if(!existe) {
+                return res.status(404).json({msg: "Pedido no encontrado."});
+            }
+            return res.status(409).json({msg: `Solo se puede cancelar un pedido Pendiente (este está "${existe.estado}").`});
+        }
+
+        // Devolver al stock los ingredientes de todos los productos del pedido.
+        for(const producto of orden.productos) {
+            await devolverStock(producto.ingredientes);
+        }
+
+        res.status(200).json(orden);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg: "Error al cancelar el pedido."});
+    }
+}
+
 export {
     consultarHistorial,
-    crearOrden
+    crearOrden,
+    cancelarOrden
 }

@@ -9,18 +9,56 @@ import {
     crearCategoria, 
     listarOrdenesAdmin, 
     registrarAdmin, 
-    registrarCocinero, 
+    registrarCocinero
 } from "../controladores/adminControlador.js";
 
 const router = express.Router();
 
-router.get("/ordenes", chequearAuth, esAdmin, listarOrdenesAdmin);
-router.get("/ordenes/:id", chequearAuth, esAdmin, consultarOrdenPuntualAdmin);
+// TODOS REQUIEREN TOKEN Y ROL ADMINISTRADOR
 
-router.post("/usuarios/admin", chequearAuth, esAdmin, registrarAdmin);
-router.post("/usuarios/cocinero", chequearAuth, esAdmin, registrarCocinero);
-router.post("/categorias", chequearAuth, esAdmin, crearCategoria);
-router.patch("/usuarios/:id", chequearAuth, esAdmin, cambiarEstadoUsuario);
+// GET request no necesita JSON.
+router.get("/", chequearAuth, esAdmin, listarOrdenesAdmin);
+
+// Mismo que el de arriba, pero si necesita en la URL la id del pedido.
+router.get("/:id", chequearAuth, esAdmin, consultarOrdenPuntualAdmin);
+
+/*
+    Modelo JSON de registrar un admin (POST) (Parecido a registrar usuario, el back le asigna otro rol)
+    {
+        "nombre": "Juan",
+        "apellido": "Perez",
+        "email": "correo@correo.com",
+        "password": "...",
+    }
+*/
+router.post("/admin", chequearAuth, esAdmin, registrarAdmin);
+
+/*
+    Modelo JSON de registrar un cocinero (POST) (Parecido a registrar usuario, el back le asigna otro rol)
+    {
+        "nombre": "Juan",
+        "apellido": "Perez",
+        "email": "correo@correo.com",
+        "password": "...",
+    }
+*/
+router.post("/cocinero", chequearAuth, esAdmin, registrarCocinero);
+
+/*
+    Modelo JSON para crear una categoría (POST):
+    {
+        "nombre":"Vegetales",
+        "minimo": 1,
+        "maximo": 3,
+        "paso": 2
+    }
+*/
+router.post("/categoria", chequearAuth, esAdmin, crearCategoria);
+
+/*
+    Solo requiere el id del usuario, automaticamente modifica la variable isActivo de true a false y viceversa.
+*/
+router.patch("/usuario/:id", chequearAuth, esAdmin, cambiarEstadoUsuario);
 
 
 

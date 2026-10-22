@@ -1,4 +1,3 @@
-
 /*  
     Express no admite pasar un cuarto parámetro a los middleware, por lo cual, se debe usar
     función que retorna otra función.

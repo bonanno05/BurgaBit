@@ -6,9 +6,46 @@ import { autenticar, registrar, actualizarPerfil, actualizarPassword } from "../
 const router = express.Router();
 
 // Rutas públicas
-router.post("/login", autenticar);
+/*
+    Modelo JSON de logueo (POST)
+    {
+        "email": "correo@correo.com",
+        "password": "..."
+    }
+*/
+router.post("/login", autenticar); 
+
+/*
+    Modelo JSON de registro (POST)
+    {
+        "nombre": "Juan",
+        "apellido": "Perez",
+        "email": "correo@correo.com",
+        "password": "...",
+    }
+*/
 router.post("/registrar", registrar);
-router.put("/perfil", chequearAuth, actualizarPerfil);
-router.put("/perfil/password", chequearAuth, actualizarPassword);
+
+/*
+    Modelo JSON editar perfil (PUT) (solo nombre, apellido y foto)
+    {
+        "nombre": "Juan",
+        "apellido": "Perez",
+        "foto": "..." <- String
+    }
+*/
+router.put("/", chequearAuth, actualizarPerfil);
+
+
+
+/*
+    Modelo JSON cambio de password (PUT)
+    {
+        "passActual": "...",
+        "passNueva": "..."
+    }
+*/
+router.put("/password", chequearAuth, actualizarPassword);
+
 
 export default router;

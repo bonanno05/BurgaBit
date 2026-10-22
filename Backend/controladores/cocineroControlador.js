@@ -76,7 +76,6 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
     }
 }
 
-
 export {
     listarOrdenesCocinero,
     cambiarEstadoOrdenCocinero

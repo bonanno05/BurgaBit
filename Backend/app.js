@@ -2,8 +2,9 @@ import "dotenv/config";
 import express from "express";
 import conectarDB from "./config/db.js";
 import adminRoutes from "./routes/adminRoutes.js";
-import cocineroRoutes from "./routes/cocineroRoutes.js"
-import ingredienteRoutes from "./routes/ingredienteRoutes.js"
+import cocineroRoutes from "./routes/cocineroRoutes.js";
+import ingredienteRoutes from "./routes/ingredienteRoutes.js";
+import clienteRoutes from "./routes/clienteRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import crearAdminInicial from "./config/crearAdmin.js";
 import cors from "cors";
@@ -22,11 +23,17 @@ app.use("/api/admin", adminRoutes);
 // Ruta base de cocineros
 app.use("/api/cocinero", cocineroRoutes);
 
+// Ruta base de los clientes
+app.use("/api/clientes", clienteRoutes);
+
 // Ruta pública de login, etc.
 app.use("/api/auth", authRoutes);
 
 // Ruta de ingredientes (menú público y gestión del administrador)
 app.use("/api/ingredientes", ingredienteRoutes);
+
+//Rutas del cliente (pedidos)
+app.use("/api/cliente", clienteRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor funcionando en el puerto ${PORT}.`)

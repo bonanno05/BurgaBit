@@ -61,7 +61,7 @@ const crearOrden = async (req, res) => {
 
             for(const item of producto.ingredientes) {
                 // !item = resguardo contra cosas raras
-                if(!item || !mongoose.Types.ObjectId.isValid(item.ingrediente)) {
+                if(!item || typeof item.ingrediente !== "string" || !mongoose.Types.ObjectId.isValid(item.ingrediente)) {
                     return res.status(400).json({msg: "Ingrediente ingresado es inválido."});
                 }
                 

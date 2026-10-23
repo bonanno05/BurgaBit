@@ -82,7 +82,7 @@ La entidad elegida para el CRUD completo es **Ingredientes**:
 | Consultar un ingrediente | Cualquiera, sin necesidad de iniciar sesión |
 | Crear un ingrediente | Administrador |
 | Modificar un ingrediente (precio, stock, disponibilidad, etc.) | Administrador |
-| Eliminar un ingrediente | Administrador |
+| Eliminar un ingrediente (baja lógica: queda como no disponible, no se borra de la base) | Administrador |
 
 **Validaciones**:
 - nombre obligatorio y sin repetir;

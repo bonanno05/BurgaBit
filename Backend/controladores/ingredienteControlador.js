@@ -92,7 +92,7 @@ const modificarIngrediente = async (req, res) => {
     }
 }
 
-/* 
+// Eliminar ingrediente (baja lógica): no se borra de la base, se marca isDisponible = false.
 const eliminarIngrediente = async (req, res) => {
     const {id} = req.params;
 
@@ -116,7 +116,6 @@ const eliminarIngrediente = async (req, res) => {
         res.status(500).json({msg: "Error al eliminar el ingrediente."});
     }
 }
-    */
 
 const reponerStock = async (req, res) => {
     const {id} = req.params;
@@ -197,5 +196,6 @@ export {
     reponerStock,
     listarIngredientes,
     consultarIngrediente,
-    listarMenu
+    listarMenu,
+    eliminarIngrediente
 };

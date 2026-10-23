@@ -4,6 +4,7 @@ import {
     consultarIngrediente,
     agregarIngrediente,
     modificarIngrediente,
+    eliminarIngrediente,
     reponerStock,
     listarMenu
 } from "../controladores/ingredienteControlador.js";
@@ -54,5 +55,12 @@ router.patch("/:id", chequearAuth, esAdmin, modificarIngrediente);
     }
 */
 router.patch("/:id/stock", chequearAuth, esAdmin, reponerStock);                                        
+
+/*
+    Eliminar un ingrediente (baja lógica): no usa JSON, el id del ingrediente va en la URL.
+    No se borra de la base: se marca isDisponible = false y deja de aparecer en el menú.
+    Para recuperarlo, usar el PATCH de modificar con { "isDisponible": true }.
+*/
+router.delete("/:id", chequearAuth, esAdmin, eliminarIngrediente);
 
 export default router;

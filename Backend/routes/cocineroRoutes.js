@@ -12,24 +12,23 @@ const router = express.Router();
 router.get("/", chequearAuth, esCocinero, listarOrdenesCocinero);
 
 /*
-    Modelo JSON para cambiar el estado de una orden/pedido
-    id de una orden/pedido en base de datos en la URL
-    
-    sar la lista de clave-valor para transicionar estados, tal cual esta.
-    Listo para retirar -> Cancelado O -> Entregado
-    En preparación -> Cancelado O -> Listo para retirar
+        Cambiar el estado de un pedido. El id del pedido va en la URL.
 
-    NO SE PUEDE TRANSICIONAR FUERA DE ESTAS CLAVES-VALOR = ERROR
+    Transiciones permitidas (cualquier otra da error 400):
+    Pendiente          -> En preparación  o  Cancelado
+    En preparación     -> Lista para retirar  o  Cancelado
+    Lista para retirar -> Entregada
+    (Entregada y Cancelado son estados finales.)
 
-    Si es cambio de estado normal:
+    Si es un cambio de estado normal:
     {
-        "estado": "Listo para retirar"
+        "estado": "En preparación"
     }
 
-    Si es cancelación:
+    Si es una cancelación (el motivo es obligatorio):
     {
         "estado": "Cancelado",
-        "motivoCancelacion": "blabla"
+        "motivoCancelacion": "Falta pan brioche"
     }
 
 

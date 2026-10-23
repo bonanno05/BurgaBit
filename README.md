@@ -61,7 +61,7 @@ El sistema maneja **tres roles**:
 ```
 Pendiente → En preparación → Lista para retirar → Entregada
     ↓               ↓
-Cancelada       Cancelada
+Cancelado       Cancelado
 ```
 
 - El servidor solo permite estos cambios. Por ejemplo, una orden *Entregada* no puede volver a *En preparación*.
@@ -70,7 +70,7 @@ Cancelada       Cancelada
 ### Cancelaciones
 - **Cliente**: solo sus propios pedidos y solo mientras estén *Pendientes*, es decir, antes de que la cocina empiece a prepararlos.
 - **Cocina**: hasta que el pedido esté *En preparación*, con un motivo obligatorio.
-- Una orden *Lista para retirar*, *Entregada* o *Cancelada* no puede cancelarse.
+- Un pedido en estado *Lista para retirar*, *Entregada* o *Cancelado* no puede cancelarse.
 
 ## CRUD completo: Ingredientes
 

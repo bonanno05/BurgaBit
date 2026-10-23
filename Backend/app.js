@@ -7,6 +7,7 @@ import ingredienteRoutes from "./routes/ingredienteRoutes.js";
 import clienteRoutes from "./routes/clienteRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import crearAdminInicial from "./config/crearAdmin.js";
+import categoriaRoutes from "./routes/categoriaRoutes.js";
 import cors from "cors";
 
 const app = express();
@@ -31,6 +32,9 @@ app.use("/api/ingredientes", ingredienteRoutes);
 
 //Rutas del cliente (pedidos)
 app.use("/api/cliente", clienteRoutes);
+
+// Rutas de categorías (lista cualquier logueado; gestión del administrador)
+app.use("/api/categorias", categoriaRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor funcionando en el puerto ${PORT}.`)

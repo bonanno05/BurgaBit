@@ -5,8 +5,7 @@ import chequearAuth from "../middleware/authMiddleware.js";
 import { esAdmin } from "../middleware/rolesMiddleware.js";
 import { 
     cambiarEstadoUsuario, 
-    consultarOrdenPuntualAdmin, 
-    crearCategoria, 
+    consultarOrdenPuntualAdmin,  
     listarOrdenesAdmin, 
     registrarAdmin, 
     registrarCocinero
@@ -43,17 +42,6 @@ router.post("/admin", chequearAuth, esAdmin, registrarAdmin);
     }
 */
 router.post("/cocinero", chequearAuth, esAdmin, registrarCocinero);
-
-/*
-    Modelo JSON para crear una categoría (POST):
-    {
-        "nombre":"Vegetales",
-        "minimo": 1,
-        "maximo": 3,
-        "paso": 2
-    }
-*/
-router.post("/categoria", chequearAuth, esAdmin, crearCategoria);
 
 /*
     Solo requiere el id del usuario, automaticamente modifica la variable isActivo de true a false y viceversa.

@@ -7,7 +7,6 @@
 import mongoose from "mongoose";
 import Orden from "../modelos/Orden.js";
 import Usuario from "../modelos/Usuario.js";
-import Categoria from "../modelos/Categoria.js";
 
 
 // Registrar administrador.
@@ -141,34 +140,10 @@ const consultarOrdenPuntualAdmin = async(req, res) => {
     }
 }
 
-// Crear categoria.
-const crearCategoria = async (req, res) => {
-
-    const {nombre, minimo, maximo, paso} = req.body;
-    if (minimo > maximo) {
-        return res.status(400).json({msg: "El mínimo no puede ser mayor que el máximo."});
-    }
-    try {
-        const existe = await Categoria.findOne({nombre});
-
-        if(existe) {
-            return res.status(400).json({msg: "La categoría ya existe."});
-        }
-
-        const categoria = new Categoria({nombre, minimo, maximo, paso});
-        await categoria.save();
-
-        res.status(201).json({msg: "Categoría creada."});
-    } catch(error) {
-        res.status(500).json({msg: "Error al crear la categoría."});
-    }
-}
-
 export {
     registrarAdmin,
     registrarCocinero,
     listarOrdenesAdmin,
     consultarOrdenPuntualAdmin,
-    crearCategoria,
-    cambiarEstadoUsuario,
+    cambiarEstadoUsuario
 }

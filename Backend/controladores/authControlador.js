@@ -136,15 +136,12 @@ const actualizarPassword = async (req, res) => {
             return res.status(401).json({msg: 'La contraseña es incorrecta.'});    
         }
 
-<<<<<<< Updated upstream
-=======
         // Validación de contraseña nueva con el estándar fijado en el modelo.
         if (!passNueva || passNueva.length < 8) {
             return res.status(400).json({msg: 'La contraseña nueva debe tener al menos 8 caracteres.'});
         }
 
         // Cambio de contraseña asignado.
->>>>>>> Stashed changes
         usuario.password = passNueva;
         await usuario.save();
 

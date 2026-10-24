@@ -101,6 +101,16 @@ const cambiarEstadoUsuario = async (req, res) => {
     }
 }
 
+// Lista todos los usuarios (sin la contraseña), ordenados por rol y después por apellido.
+const listarUsuarios = async (_req, res) => {
+    try {
+        const usuarios = await Usuario.find().sort({rol: 1, apellido: 1});
+        res.status(200).json(usuarios);
+    } catch (error) {
+        res.status(500).json({msg: "Error al listar los usuarios."});
+    }
+}
+
 // Consultar todas los pedidos sin intervenir.
 const listarOrdenesAdmin = async (_req, res) => {
     // No usa req, pero hay que respetar la sintaxis de Express.
@@ -140,10 +150,12 @@ const consultarOrdenPuntualAdmin = async(req, res) => {
     }
 }
 
+
 export {
     registrarAdmin,
     registrarCocinero,
     listarOrdenesAdmin,
     consultarOrdenPuntualAdmin,
-    cambiarEstadoUsuario
+    cambiarEstadoUsuario,
+    listarUsuarios
 }

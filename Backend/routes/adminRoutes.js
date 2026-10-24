@@ -8,7 +8,8 @@ import {
     consultarOrdenPuntualAdmin,  
     listarOrdenesAdmin, 
     registrarAdmin, 
-    registrarCocinero
+    registrarCocinero,
+    listarUsuarios
 } from "../controladores/adminControlador.js";
 
 const router = express.Router();
@@ -18,7 +19,11 @@ const router = express.Router();
 // GET request no necesita JSON.
 router.get("/", chequearAuth, esAdmin, listarOrdenesAdmin);
 
-// Mismo que el de arriba, pero si necesita en la URL la id del pedido.
+// GET request no necesita JSON. Lista todos los usuarios (sin contraseña), para gestionarlos.
+// Va antes de "/:id": si no, Express tomaría "usuarios" como el id de un pedido.
+router.get("/usuarios", chequearAuth, esAdmin, listarUsuarios);
+
+// GET request no necesita JSON. Consulta un pedido puntual: el id del pedido va en la URL.
 router.get("/:id", chequearAuth, esAdmin, consultarOrdenPuntualAdmin);
 
 /*

@@ -57,6 +57,7 @@ const usuarioSchema = new mongoose.Schema({
 // Una función flecha no tiene this propio (en un módulo es undefined) y this.password fallaría.
 
 // Hasheo de contraseña
+// pre() = middleware de mongoose, ejecuta una función antes de hacer algo.
 usuarioSchema.pre('save', async function () {
     
     // Evitar que un password hasheado sea vuelto a hashear.

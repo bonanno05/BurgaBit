@@ -181,7 +181,7 @@ const listarMenu = async (_req, res) => {
         const ingredientes = await Ingrediente.find({
             isDisponible: true,
             cantidad: { $gt: 0 }
-        });
+        }).populate("categoria", "nombre paso minimo maximo");
         res.status(200).json(ingredientes);
     } catch (error) {
         res.status(500).json({msg: "Error al listar el menú."});

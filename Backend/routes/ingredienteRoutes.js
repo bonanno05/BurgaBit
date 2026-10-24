@@ -18,7 +18,7 @@ const router = express.Router();
 router.get("/",chequearAuth, permitirRoles("administrador", "cocinero"), listarIngredientes);           
 
 // Petición GET, no usa JSON
-// Dado que es de acceso público no lista los isDisponible = false y cantidad = 0
+// Menú para cualquier usuario logueado: solo ingredientes disponibles y con stock, con los datos de su categoría (nombre, paso, mínimo y máximo).
 router.get("/menu", chequearAuth, listarMenu);  //cualquier usuario logueado
 
 // Mismo que el de arriba, pero se necesita en la URL la id del ingrediente.                                  

@@ -12,20 +12,23 @@ import generarJWT from "../config/jwt.js";
 // Crear usuario (default = cliente)
 const registrar = async (req, res) => {
 
+    // Desestructuración.
     const {nombre, apellido, email, password} = req.body;
 
-     // El email tiene que ser un texto: si falta o llega otra cosa, no se consulta la base.
+     // Validación: El email tiene que ser un texto: si falta o llega otra cosa, no se consulta la base.
     if(typeof email !== "string" || email.trim() === "") {
         return res.status(400).json({msg: "El email es obligatorio."}); // 400 = Bad Request
     }
 
     try {
-
+        // Busquéda en base de datos por el mail.
         const existeUsuario = await Usuario.findOne({email});
+
         // Detener ejecución innecesaria por duplicados.
         if(existeUsuario) {
             return res.status(409).json({msg: "Usuario ya registrado."}); // 409 = Conflicto
         }
+
         const usuario = new Usuario({
             nombre,
             apellido,
@@ -37,6 +40,7 @@ const registrar = async (req, res) => {
 
         res.status(201).json({msg: "Usuario registrado."}); // 201 = Petición exitosa
     } catch(error) {
+        console.log(error);
         res.status(500).json({msg: "Error al registrar usuario."}); // 500 = Error interno del servidor
     }
 
@@ -48,14 +52,14 @@ const autenticar = async (req, res) => {
     // Desestructuración
     const {email, password} = req.body;
 
-    // Email y contraseña tienen que ser textos: si falta alguno o llega otra cosa, no se consulta la base.
+    // Validación: mail y contraseña tienen que ser textos: si falta alguno o llega otra cosa, no se consulta la base.
     if(typeof email !== "string" || typeof password !== "string") {
         return res.status(400).json({msg: 'Email y contraseña son obligatorios.'}); // 400 = Bad Request
     }
 
     try {
-        // Comprobar si existe el usuario (pidiendo la contraseña, que el esquema oculta).
-        const usuario = await Usuario.findOne({email}).select("+password");
+        // Busca al usuario por el mail.
+        const usuario = await Usuario.findOne({email}).select("+password"); // select("+password") permite traer el campo password como resultado de la búsqueda.
 
         // Mismo mensaje si falla el email o la contraseña: así no se revela qué emails están registrados.
         if(!usuario || !(await usuario.comprobarPassword(password))) {
@@ -75,6 +79,7 @@ const autenticar = async (req, res) => {
 
 }
 
+// Usuario modifica sus datos propios.
 const actualizarPerfil = async (req, res) => {
     // Solo se toman los campos que el usuario puede cambiar de su perfil.
     const {nombre, apellido, foto} = req.body;
@@ -102,6 +107,7 @@ const actualizarPerfil = async (req, res) => {
     }
 }
 
+// Usuario modifica su contraseña de acceso.
 const actualizarPassword = async (req, res) => {
     const {passActual, passNueva} = req.body;
 
@@ -121,14 +127,24 @@ const actualizarPassword = async (req, res) => {
     try {
         const usuario = await Usuario.findById(req.usuario._id).select("+password");
 
-        if(!usuario) {
+        if(!usuario) { // No debería ejecutarse porque el usuario ya esta logueado, o sea que ya fue encontrado en el login...
             return res.status(404).json({msg: 'Usuario no encontrado.'}); // 404 = No encontrado
         }
 
+        // Validación de contraseña actual.
         if(!(await usuario.comprobarPassword(passActual))) {
             return res.status(401).json({msg: 'La contraseña es incorrecta.'});    
         }
 
+<<<<<<< Updated upstream
+=======
+        // Validación de contraseña nueva con el estándar fijado en el modelo.
+        if (!passNueva || passNueva.length < 8) {
+            return res.status(400).json({msg: 'La contraseña nueva debe tener al menos 8 caracteres.'});
+        }
+
+        // Cambio de contraseña asignado.
+>>>>>>> Stashed changes
         usuario.password = passNueva;
         await usuario.save();
 

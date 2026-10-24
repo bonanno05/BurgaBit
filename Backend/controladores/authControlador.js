@@ -105,6 +105,19 @@ const actualizarPerfil = async (req, res) => {
 const actualizarPassword = async (req, res) => {
     const {passActual, passNueva} = req.body;
 
+    // Las dos contraseñas tienen que ser texto: si falta alguna, no se consulta la base.
+    if(typeof passActual !== "string" || typeof passNueva !== "string") {
+        return res.status(400).json({msg: "La contraseña actual y la nueva son obligatorias."});
+    }
+
+    if(passNueva.length < 8) {
+        return res.status(400).json({msg: "La contraseña nueva debe tener al menos 8 caracteres."});
+    }
+
+    if(passNueva === passActual) {
+    return res.status(400).json({msg: "La contraseña nueva tiene que ser distinta de la actual."});
+    }
+    
     try {
         const usuario = await Usuario.findById(req.usuario._id).select("+password");
 
@@ -114,10 +127,6 @@ const actualizarPassword = async (req, res) => {
 
         if(!(await usuario.comprobarPassword(passActual))) {
             return res.status(401).json({msg: 'La contraseña es incorrecta.'});    
-        }
-
-        if (!passNueva || passNueva.length < 8) {
-            return res.status(400).json({msg: 'La contraseña nueva debe tener al menos 8 caracteres.'});
         }
 
         usuario.password = passNueva;

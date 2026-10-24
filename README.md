@@ -19,19 +19,20 @@ El sistema maneja **tres roles**:
 | Rol | Qué puede hacer |
 |---|---|
 | **Cliente** (Usuario Final) | Registrarse e iniciar sesión. Armar uno o varios productos paso a paso y confirmarlos en un mismo pedido. Ver el estado y el historial de sus pedidos. Cancelar un pedido mientras siga *Pendiente*. |
-| **Cocina** (Operador) | Ver los pedidos activos. Avanzar su estado: *En preparación*, *Lista para retirar*, *Entregada*. Cancelar un pedido con motivo obligatorio, por ejemplo si falta un ingrediente. |
-| **Administrador** | Gestionar el menú: ingredientes, categorías, precios, stock y disponibilidad. Gestionar los usuarios: crear cuentas de Cocina y de Administración, y desactivarlas cuando alguien deja de trabajar. Puede consultar los pedidos, pero no interviene en la preparación. |
+| **Cocina** (Operador) | Ver los pedidos activos. Avanzar su estado: *En preparación*, *Lista para retirar*, *Entregada*. Cancelar un pedido *Pendiente* o *En preparación* con motivo obligatorio, por ejemplo si falta un ingrediente. Consultar el catálogo de ingredientes. |
+| **Administrador** | Gestionar el menú: ingredientes, categorías, precios, stock y disponibilidad. Gestionar los usuarios: crear cuentas de Cocina y de Administración, y desactivarlas cuando alguien deja de trabajar. Puede consultar los pedidos y la lista de usuarios, pero no interviene en la preparación. |
 
-- Cualquier visitante puede ver el menú sin iniciar sesión. Para confirmar un pedido hay que registrarse o iniciar sesión.
+- Para ver el menú y hacer pedidos hay que registrarse e iniciar sesión.
 - El registro público solo crea cuentas de **Cliente**.
 - Las cuentas de Cocina y Administrador las crea un administrador.
 - La autenticación usa **JWT**, y cada operación verifica el rol de quien la pide.
+- Cualquier usuario logueado puede modificar su perfil (nombre, apellido y foto) y cambiar su contraseña, indicando la actual.
 
 ## Entidades (colecciones de MongoDB)
 
 1. **Usuarios**: nombre, apellido, email, contraseña (guardada encriptada), rol y estado (activo o inactivo). El estado sirve para dar de baja cuentas de Cocina y Administración sin borrarlas, así el historial de los pedidos conserva quién hizo cada cambio.
 2. **Categorías**: agrupan los ingredientes (Panes, Carnes, Verduras, Salsas). Cada una define cuántos ingredientes se pueden elegir como mínimo y como máximo, y en qué paso del armado aparece. Guardar ese orden permite que el administrador agregue o reordene categorías y que el armador se actualice solo, sin modificar el código.
-3. **Ingredientes**: el catálogo. Cada uno tiene nombre, descripción, categoría, precio, stock y disponibilidad.
+3. **Ingredientes**: el catálogo. Cada uno tiene nombre, categoría, precio, stock y disponibilidad. Un ingrediente no disponible no aparece en el menú ni puede pedirse; así se pausa o se da de baja (baja lógica) sin borrarlo.
 4. **Órdenes**: unen al cliente con los productos que armó (uno o varios por pedido). Guardan una copia de cada ingrediente elegido (nombre, categoría, precio del momento y cantidad), el total, el estado actual y el historial de estados.
 
 ## Reglas de negocio

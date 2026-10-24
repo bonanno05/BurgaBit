@@ -9,63 +9,37 @@ import Orden from "../modelos/Orden.js";
 import Usuario from "../modelos/Usuario.js";
 
 
-// Registrar administrador.
-const registrarAdmin = async (req, res) => {
-
+// Crea una cuenta con el rol indicado. La usan registrarAdmin y registrarCocinero.
+// Tiene las mismas protecciones que registrar (authControlador): email como texto, búsqueda dentro del try y 409 si ya existe.
+const crearCuenta = async (req, res, rol) => {
     const {nombre, apellido, email, password} = req.body;
 
-    const existeUsuario = await Usuario.findOne({email});
-
-    // Detener ejecución innecesaria por duplicados.
-    if(existeUsuario) {
-        return res.status(400).json({msg: "Usuario ya registrado."}); // 400 = Bad Request
+    if(typeof email !== "string" || email.trim() === "") {
+        return res.status(400).json({msg: "El email es obligatorio."});
     }
 
     try {
-        const usuario = new Usuario({
-            nombre,
-            apellido,
-            email,
-            password,
-            rol: "administrador"
-        });
+        const existeUsuario = await Usuario.findOne({email});
 
+        if(existeUsuario) {
+            return res.status(409).json({msg: "Usuario ya registrado."});
+        }
+
+        const usuario = new Usuario({nombre, apellido, email, password, rol});
         await usuario.save();
 
-        res.status(201).json({msg: "Usuario registrado."}); // 201 = Petición exitosa
+        res.status(201).json({msg: "Usuario registrado."});
     } catch(error) {
-        res.status(500).json({msg: "Error al registrar usuario."}); // 500 = Error interno del servidor
+        res.status(500).json({msg: "Error al registrar usuario."});
     }
 }
+
+// Registrar administrador.
+const registrarAdmin = (req, res) => crearCuenta(req, res, "administrador");
 
 // Registrar cocinero.
-const registrarCocinero = async (req, res) => {
+const registrarCocinero = (req, res) => crearCuenta(req, res, "cocinero");
 
-    const {nombre, apellido, email, password} = req.body;
-
-    const existeUsuario = await Usuario.findOne({email});
-
-    // Detener ejecución innecesaria por duplicados.
-    if(existeUsuario) {
-        return res.status(400).json({msg: "Usuario ya registrado."}); // 400 = Bad Request
-    }
-
-    try {
-        const usuario = new Usuario({
-            nombre,
-            apellido,
-            email,
-            password,
-            rol: "cocinero"
-        });
-
-        await usuario.save();
-
-        res.status(201).json({msg: "Usuario registrado."}); // 201 = Petición exitosa
-    } catch(error) {
-        res.status(500).json({msg: "Error al registrar usuario."}); // 500 = Error interno del servidor
-    }
-}
 
 // Desactivar una cuenta.
 const cambiarEstadoUsuario = async (req, res) => {

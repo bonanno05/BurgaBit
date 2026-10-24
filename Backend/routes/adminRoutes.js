@@ -31,7 +31,6 @@ router.get("/:id", chequearAuth, esAdmin, consultarOrdenPuntualAdmin);
     {
         "nombre": "Juan",
         "apellido": "Perez",
-        "email": "correo@correo.com",
         "password": "...",
     }
 */
@@ -42,7 +41,6 @@ router.post("/admin", chequearAuth, esAdmin, registrarAdmin);
     {
         "nombre": "Juan",
         "apellido": "Perez",
-        "email": "correo@correo.com",
         "password": "...",
     }
 */

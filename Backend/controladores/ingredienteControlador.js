@@ -103,12 +103,7 @@ const modificarIngrediente = async (req, res) => {
     }
 }
 
-<<<<<<< Updated upstream
 // Eliminar ingrediente (baja lógica): no se borra de la base, se marca isDisponible = false.
-=======
-/* 
-// Método para eliminar ingredientes (Baja física)
->>>>>>> Stashed changes
 const eliminarIngrediente = async (req, res) => {
     const {id} = req.params;
 
@@ -217,21 +212,14 @@ const listarMenu = async (_req, res) => {
     }
 }
 
-<<<<<<< Updated upstream
 
 
-=======
->>>>>>> Stashed changes
 export {
     agregarIngrediente,
     modificarIngrediente,
     reponerStock,
     listarIngredientes,
     consultarIngrediente,
-<<<<<<< Updated upstream
     listarMenu,
     eliminarIngrediente
-=======
-    listarMenu
->>>>>>> Stashed changes
 };

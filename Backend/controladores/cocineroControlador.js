@@ -70,23 +70,16 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
             return res.status(400).json({msg: "No existe tal transición en el sistema."});
         }
 
-<<<<<<< Updated upstream
-               // Registro de qué cocinero hizo el cambio y, si canceló, el motivo.
-=======
         // Supera las validaciones, asigna el estado al objeto.
         orden.estado = estado;
 
         // Objeto que contiene el nuevo estdo, y el usuario que lo hizo.
->>>>>>> Stashed changes
         const cambio = {estado, usuario: req.usuario._id};
         // En el caso de cancelación, agrega el motivo al objeto cambio.
         if(estado === 'Cancelado') {
             cambio.motivo = motivoCancelacion.trim();
         }
-<<<<<<< Updated upstream
-=======
         orden.historialEstados.push(cambio); // .push() de mongoose, agrega un documento al final de un MongooseArray.
->>>>>>> Stashed changes
 
         // Guarda el cambio solo si la orden sigue en el estado que se leyó, en una sola operación.
         // Así dos cambios a la vez (por ejemplo, un doble clic al cancelar) no se aplican los dos.
@@ -102,12 +95,8 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
 
         // Llamada a devolverStock.js, devuelve la cantidad de ingredientes usados a la base de datos.
         if(estado === 'Cancelado') {
-<<<<<<< Updated upstream
-            for(const producto of actualizada.productos) {
-=======
             // Recorre todos los productos de cada orden y va devolviendo los ingredientes que contienen.
             for(const producto of orden.productos) {
->>>>>>> Stashed changes
                 await devolverStock(producto.ingredientes);
             }
         }

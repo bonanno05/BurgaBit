@@ -22,7 +22,7 @@ const limpiarTexto = (texto) => texto
 const crearMailStaff = (nombre, apellido) => {
     const numeroAleatorio = Math.floor(Math.random() * 900) + 100; // Aleatorios entre 100 y 999
 
-    `${limpiarTexto(nombre)}${limpiarTexto(apellido)}${numeroAleatorio}@burgabit.com`;
+    return `${limpiarTexto(nombre)}${limpiarTexto(apellido)}${numeroAleatorio}@burgabit.com`;
 };
 
 // Crea una cuenta con el rol indicado. La usan registrarAdmin y registrarCocinero.
@@ -53,6 +53,7 @@ const crearCuenta = async (req, res, rol) => {
 
         res.status(201).json({msg: "Usuario registrado: ", email});
     } catch(error) {
+        console.log(error);
         res.status(500).json({msg: "Error al registrar usuario."});
     }
 }

@@ -70,16 +70,13 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
             return res.status(400).json({msg: "No existe tal transición en el sistema."});
         }
 
-        // Supera las validaciones, asigna el estado al objeto.
-        orden.estado = estado;
-
         // Objeto que contiene el nuevo estdo, y el usuario que lo hizo.
         const cambio = {estado, usuario: req.usuario._id};
         // En el caso de cancelación, agrega el motivo al objeto cambio.
         if(estado === 'Cancelado') {
             cambio.motivo = motivoCancelacion.trim();
         }
-        orden.historialEstados.push(cambio); // .push() de mongoose, agrega un documento al final de un MongooseArray.
+        
 
         // Guarda el cambio solo si la orden sigue en el estado que se leyó, en una sola operación.
         // Así dos cambios a la vez (por ejemplo, un doble clic al cancelar) no se aplican los dos.
@@ -96,7 +93,7 @@ const cambiarEstadoOrdenCocinero = async (req, res) => {
         // Llamada a devolverStock.js, devuelve la cantidad de ingredientes usados a la base de datos.
         if(estado === 'Cancelado') {
             // Recorre todos los productos de cada orden y va devolviendo los ingredientes que contienen.
-            for(const producto of orden.productos) {
+            for(const producto of actualizada.productos) {
                 await devolverStock(producto.ingredientes);
             }
         }

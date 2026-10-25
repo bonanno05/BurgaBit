@@ -138,7 +138,7 @@ const reponerStock = async (req, res) => {
         return res.status(400).json({msg: "Ingrediente inexistente."});
     }
 
-    // Validación de que sea entero y cantidad mayor o igual que cero.
+        // Validación: la cantidad a sumar tiene que ser un número entero mayor que cero.
     if(!Number.isInteger(cantidad) || cantidad <= 0) {
         return res.status(400).json({msg: "La cantidad a sumar debe ser un numero entero mayor que cero."});
     }

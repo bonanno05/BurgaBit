@@ -13,7 +13,7 @@ const ESTADOS_ACTIVOS = ['Pendiente', 'En preparación', 'Lista para retirar'];
 // Diccionario clave-valor para validar las transiciones de estados de pedidos.
 const TRANSICIONES = {
     'Pendiente': ['En preparación', 'Cancelado'], // La cocina acepta el pedido o lo cancela.
-    'En preparación':  ['Lista para retirar', 'Cancelado'], // Estado predeterminado de un pedido, se puede cancelar o bien sigue su curso.
+    'En preparación':  ['Lista para retirar', 'Cancelado'], // La cocina ya lo está preparando: lo termina o lo cancela (con motivo).
     'Lista para retirar': ['Entregada'], // Ya esta hecha, no se puede cancelar.
     'Entregada': [], // Estado final.
     'Cancelado': [] // Estado final.

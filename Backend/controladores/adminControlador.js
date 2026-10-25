@@ -51,7 +51,7 @@ const crearCuenta = async (req, res, rol) => {
         const usuario = new Usuario({nombre, apellido, email, password, rol});
         await usuario.save();
 
-        res.status(201).json({msg: "Usuario registrado."});
+        res.status(201).json({msg: "Usuario registrado: ", email});
     } catch(error) {
         res.status(500).json({msg: "Error al registrar usuario."});
     }

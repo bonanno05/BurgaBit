@@ -19,7 +19,11 @@ const limpiarTexto = (texto) => texto
     .replace(/[\u0300-\u036f]/g, "") // expresión regular: rango unicode para eliminar los acentos y caracteres raros sueltos.
     .replace(/\s+/g, "") // expresión regular: elimina los espacios.
 
-const crearMailStaff = (nombre, apellido) => `${limpiarTexto(nombre)}${limpiarTexto(apellido)}@burgabit.com`;
+const crearMailStaff = (nombre, apellido) => {
+    const numeroAleatorio = Math.floor(Math.random() * 900) + 100; // Aleatorios entre 100 y 999
+
+    `${limpiarTexto(nombre)}${limpiarTexto(apellido)}${numeroAleatorio}@burgabit.com`;
+};
 
 // Crea una cuenta con el rol indicado. La usan registrarAdmin y registrarCocinero.
 // Tiene las mismas protecciones que registrar (authControlador): email como texto, búsqueda dentro del try y 409 si ya existe.

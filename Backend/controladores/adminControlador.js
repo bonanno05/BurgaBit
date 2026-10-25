@@ -147,41 +147,12 @@ const consultarOrdenPuntualAdmin = async(req, res) => {
         }
 
         res.status(200).json(orden);
-    } catch {
+    } catch (error) {
         console.log(error);
         res.status(500).json({msg: "Error al obtener el pedido."})
     }
 }
 
-// Crear categoria de ingredientes.
-const crearCategoria = async (req, res) => {
-
-    const {nombre, minimo, maximo, paso} = req.body;
-
-    // Validación que el mínimo no pueda superar al valor máximo.
-    if (minimo > maximo) {
-        return res.status(400).json({msg: "El mínimo no puede ser mayor que el máximo."});
-    }
-
-    try {
-        // Chequea en base de datos que no exista ya.
-        const existe = await Categoria.findOne({nombre});
-
-        // Caso de existir...
-        if(existe) {
-            return res.status(400).json({msg: "La categoría ya existe."});
-        }
-
-        // Si no existe, se crea, y mongoose lo guarda.
-        const categoria = new Categoria({nombre, minimo, maximo, paso});
-        await categoria.save();
-
-        res.status(201).json({msg: "Categoría creada."});
-    } catch(error) {
-        console.log(error);
-        res.status(500).json({msg: "Error al crear la categoría."});
-    }
-}
 
 export {
     registrarAdmin,

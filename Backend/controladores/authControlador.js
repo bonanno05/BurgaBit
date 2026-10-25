@@ -127,18 +127,13 @@ const actualizarPassword = async (req, res) => {
     try {
         const usuario = await Usuario.findById(req.usuario._id).select("+password");
 
-        if(!usuario) { // No debería ejecutarse porque el usuario ya esta logueado, o sea que ya fue encontrado en el login...
+        if(!usuario) { // No debería pasar: chequearAuth ya verificó que el usuario existe.
             return res.status(404).json({msg: 'Usuario no encontrado.'}); // 404 = No encontrado
         }
 
         // Validación de contraseña actual.
         if(!(await usuario.comprobarPassword(passActual))) {
             return res.status(401).json({msg: 'La contraseña es incorrecta.'});    
-        }
-
-        // Validación de contraseña nueva con el estándar fijado en el modelo.
-        if (!passNueva || passNueva.length < 8) {
-            return res.status(400).json({msg: 'La contraseña nueva debe tener al menos 8 caracteres.'});
         }
 
         // Cambio de contraseña asignado.

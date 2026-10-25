@@ -138,8 +138,8 @@ const crearOrden = async (req, res) => {
                     {$inc: {cantidad: -item.cantidad}} // (que modificar) ($inc pero al tener el menos delante de item.cantidad, actua como una resta.)
                 );
 
-                // modifiedCount es una variable de mongoose que devuelva cuantas variables del documento fueron modificadas.
-                // Si el stock no alcanza para cumplir el pedido, modifiedAccount = 0 y por tanto, se desarma el pedido.
+                // modifiedCount = cuántos DOCUMENTOS modificó la operación. Con updateOne es 1 (lo encontró y restó) o 0 (ninguno cumplía el filtro).
+                // Si el stock no alcanza para cumplir el pedido, modifiedCount = 0 y por tanto, se desarma el pedido.
                 // modifiedCount trabaja junto con el filtro de la busquéda de updateOne, si $gte falla, entraría acá. 
                 // Ej: Pido 6, pero tengo 4 en stock.
                 if(resultado.modifiedCount === 0) {

@@ -1,0 +1,469 @@
+{
+  "info": {
+    "_postman_id": "7defd868-f676-41c1-9b18-287e3da6d5b2",
+    "name": "BurgaBit",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58616533",
+    "_collection_link": "https://go.postman.co/collection/58616533-7defd868-f676-41c1-9b18-287e3da6d5b2?source=collection_link",
+    "description": "Colección de pruebas de la API de BurgaBit (Tobías). Variables: base = https://burgabit.onrender.com (o http://localhost:4000). Los tokens y las contraseñas se sacaron a propósito: hacé login con cada rol y pegá el token en la variable correspondiente."
+  },
+  "item": [
+    {
+      "name": "loginAdmin",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\" : \"admin@burgabit.com\",\r\n    \"password\" : \"<tu_contraseña>\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/auth/login",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listarIngredientesAdmin",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0f1l}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/api/ingredientes",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "ingredientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Cocinero",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0f1l}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\" : \"Juan\",\r\n    \"apellido\" : \"Perez\",\r\n    \"password\" : \"<tu_contraseña>\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/admin/cocinero",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "admin",
+            "cocinero"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "loginCocinero",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\" : \"juanperez517@burgabit.com\",\r\n    \"password\" : \"<tu_contraseña>\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/auth/login",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listarIngredientesCocinero",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_009m}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base}}/api/ingredientes",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "ingredientes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "agregarIngrediente",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0f1l}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n        \"nombre\": \"tomate\",\n        \"precio\": 150,\n        \"cantidad\" : 40,\n        \"categoria\": \"6ad97c02b8c0ba77c4444238\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/ingredientes/",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "ingredientes",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "actualizarIngrediente",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0f1l}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"cantidad\" : 5  \n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/ingredientes/6ae0027335f13e3b2cbff348/stock",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "ingredientes",
+            "6ae0027335f13e3b2cbff348",
+            "stock"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "listarCategorias",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_0f1l}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/categorias/",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "categorias",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "registrarCliente",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"nombre\" : \"Tomas\",\r\n    \"apellido\" : \"Dipapa\",\r\n    \"email\" : \"tomi@burgabit.com\",\r\n    \"password\" : \"<tu_contraseña>\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/auth/registrar",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "registrar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "loginCliente",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"email\" : \"tomi@burgabit.com\",\r\n    \"password\" : \"<tu_contraseña>\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/auth/login",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "crearOrden",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_1aek}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"productos\": \r\n        [{\r\n            \"ingredientes\": [\r\n                { \"ingrediente\": \"6ad97d0f291165b30fe75cb7\", \"cantidad\": 3 }\r\n            ]\r\n        },\r\n        {\r\n            \"ingredientes\": [\r\n                { \"ingrediente\": \"6adfc2a7120098c12b52e922\", \"cantidad\": 1 }\r\n            ]\r\n        },\r\n        {\r\n            \"ingredientes\" : [\r\n                { \"ingrediente\": \"6ae0027335f13e3b2cbff348\", \"cantidad\": 3}\r\n            ]\r\n        }\r\n        ]\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/cliente/",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "cliente",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cancelarOrden",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_1aek}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"productos\": \r\n        [{\r\n            \"ingredientes\": [\r\n                { \"ingrediente\": \"6ad97d0f291165b30fe75cb7\", \"cantidad\": 3 }\r\n            ]\r\n        },\r\n        {\r\n            \"ingredientes\": [\r\n                { \"ingrediente\": \"6adfc2a7120098c12b52e922\", \"cantidad\": 1 }\r\n            ]\r\n        },\r\n        {\r\n            \"ingredientes\" : [\r\n                { \"ingrediente\": \"6ae0027335f13e3b2cbff348\", \"cantidad\": 3}\r\n            ]\r\n        }\r\n        ]\r\n    }",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/cliente/6ae0032c35f13e3b2cbff34c/cancelar",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "cliente",
+            "6ae0032c35f13e3b2cbff34c",
+            "cancelar"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cambiarEstadoOrden",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{json_web_token_009m}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"estado\" : \"Lista para retirar\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base}}/api/cocinero/6adfc5da120098c12b52e924",
+          "host": [
+            "{{base}}"
+          ],
+          "path": [
+            "api",
+            "cocinero",
+            "6adfc5da120098c12b52e924"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base",
+      "value": "https://burgabit.onrender.com"
+    },
+    {
+      "key": "json_web_token_0f1l",
+      "secret": true,
+      "value": ""
+    },
+    {
+      "key": "json_web_token_009m",
+      "secret": true,
+      "value": ""
+    },
+    {
+      "key": "json_web_token_1aek",
+      "secret": true,
+      "value": ""
+    }
+  ]
+}

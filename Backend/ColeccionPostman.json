@@ -1,0 +1,907 @@
+{
+  "info": {
+    "_postman_id": "667d4966-4968-4579-ac46-8f084292ec9b",
+    "name": "ParcialCimino",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58965967",
+    "_collection_link": "https://go.postman.co/collection/58965967-667d4966-4968-4579-ac46-8f084292ec9b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "RutasPublicas",
+      "item": [
+        {
+          "name": "Registro",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Juan\",\n    \"apellido\": \"Perez\",\n    \"email\": \"jorge@jorge.com\",\n    \"password\":\"test2020\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/auth/registrar",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "registrar"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\":\"jorge@jorge.com\",\n    \"password\":\"test2020\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LoginAdmin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@burgabit.com\",\n    \"password\": \"admin2026\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "LoginCocinero",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\":\"juanperez591@burgabit.com\",\n    \"password\":\"test2020\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/auth/login",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ingredientes",
+      "item": [
+        {
+          "name": "ConsultarMenu",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/ingredientes/menu",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "ingredientes",
+                "menu"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ListarIngredientes(Admin&Cocinero)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/ingredientes/",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "ingredientes",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ConsultarIngredientePuntual(Admin&Cocinero)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/ingredientes/6adffc2e35f13e3b2cbff331",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "ingredientes",
+                "6adffc2e35f13e3b2cbff331"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AgregarIngrediente(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\":\"papas\",\n    \"precio\": 2,\n    \"cantidad\": 200,\n    \"categoria\": \"6ad97c02b8c0ba77c4444238\"\n}   ",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/ingredientes/",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "ingredientes",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ModificarIngrediente(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"cantidad\": 900\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/ingredientes/6adffc2e35f13e3b2cbff331",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "ingredientes",
+                "6adffc2e35f13e3b2cbff331"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categorias",
+      "item": [
+        {
+          "name": "ConsultarCategorias",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZGZmODAzMzVmMTNlM2IyY2JmZjMyZiIsInJvbCI6ImNsaWVudGUiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYyOTczLCJleHAiOjE3OTMxMDYxNzN9.wpVPBuUprE5CwTYZGWz_kkCeKOhJqOuihikFcK8kxS8",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/categorias/",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ConsultarCategoriaPuntual",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/categorias/6adff92935f13e3b2cbff330",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                "6adff92935f13e3b2cbff330"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CrearCategoria(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMDMzLCJleHAiOjE3OTMxMDYyMzN9.7hk1nRrnyUY0JQjPMxphSgDWq5KGJn-Fof0YGG-cua0",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Panificados\", \n    \"minimo\": 1, \n    \"maximo\": 1, \n    \"paso\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/categorias",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "categorias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ModificarCategoria(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDYzMzQxLCJleHAiOjE3OTMxMDY1NDF9.gvUFp-yVjgPqpLDec5-FTSB6DpmdLEHiL0yEtp8Gq2U",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \n    \"maximo\": 1 \n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/categorias/6adff92935f13e3b2cbff330",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "categorias",
+                "6adff92935f13e3b2cbff330"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Administrador",
+      "item": [
+        {
+          "name": "ListarOrdenes(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY0NDIzLCJleHAiOjE3OTMxMDc2MjN9._-OVochAHvACgqtlvNAP6bUvY9A_PgrURR5UZPcCGjA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/admin/",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "admin",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ListarUsuarios(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY0NDIzLCJleHAiOjE3OTMxMDc2MjN9._-OVochAHvACgqtlvNAP6bUvY9A_PgrURR5UZPcCGjA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/admin/usuarios",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "usuarios"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ListarOrdenPuntual(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY0NDIzLCJleHAiOjE3OTMxMDc2MjN9._-OVochAHvACgqtlvNAP6bUvY9A_PgrURR5UZPcCGjA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/admin/6ad9835593bc617773148380",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "6ad9835593bc617773148380"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RegistrarAdmin(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY0NDIzLCJleHAiOjE3OTMxMDc2MjN9._-OVochAHvACgqtlvNAP6bUvY9A_PgrURR5UZPcCGjA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Juan\",\n    \"apellido\": \"Perez\",\n    \"password\": \"test2020\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/admin/admin",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "admin"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RegistrarCocinero(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY0NDIzLCJleHAiOjE3OTMxMDc2MjN9._-OVochAHvACgqtlvNAP6bUvY9A_PgrURR5UZPcCGjA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Juan\",\n    \"apellido\": \"Perez\",\n    \"password\": \"test2020\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/admin/cocinero",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "cocinero"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Activar/DesactivarUsuario(Admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZDk3YjliYjhjMGJhNzdjNDQ0NDIzNiIsInJvbCI6ImFkbWluaXN0cmFkb3IiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY0NDIzLCJleHAiOjE3OTMxMDc2MjN9._-OVochAHvACgqtlvNAP6bUvY9A_PgrURR5UZPcCGjA",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/admin/usuario/6ad97e0d04ba896539e2976f",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "usuario",
+                "6ad97e0d04ba896539e2976f"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cocinero",
+      "item": [
+        {
+          "name": "ListarOrdenes(Cocinero)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "ModificarEstadoOrden(Cocinero)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZGZmZjUxMzVmMTNlM2IyY2JmZjM0MCIsInJvbCI6ImNvY2luZXJvIiwiaXNBY3Rpdm8iOnRydWUsImlhdCI6MTc5MzA2NTA3NSwiZXhwIjoxNzkzMTA4Mjc1fQ.bpqhAMhdw0-xrSNOchAIbl2REi9UDTTYJ5WlK2Wh5mk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"estado\": \"Cancelado\",\n    \"motivoCancelacion\": \"Fuga de gas, exploto la cocina entera.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/cocinero/6ad9836293bc617773148382",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "cocinero",
+                "6ad9836293bc617773148382"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cliente",
+      "item": [
+        {
+          "name": "ConsultarPedidos(Cliente)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZGZmODAzMzVmMTNlM2IyY2JmZjMyZiIsInJvbCI6ImNsaWVudGUiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY1MzAzLCJleHAiOjE3OTMxMDg1MDN9.x4efEglHjpAnv_hpMVMrxRk26ss4TthhZaGSYE_frPI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"estado\": \"Cancelado\",\n    \"motivoCancelacion\": \"Fuga de gas, exploto la cocina entera.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/cliente/",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "cliente",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "RealizarPedidos(Cliente)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZGZmODAzMzVmMTNlM2IyY2JmZjMyZiIsInJvbCI6ImNsaWVudGUiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY1MzAzLCJleHAiOjE3OTMxMDg1MDN9.x4efEglHjpAnv_hpMVMrxRk26ss4TthhZaGSYE_frPI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\n    \"productos\": \n        [{\n            \"ingredientes\": [\n                { \"ingrediente\": \"6ad97d0f291165b30fe75cb7\", \"cantidad\": 1 },\n                { \"ingrediente\": \"6adfc2a7120098c12b52e922\", \"cantidad\": 1 }\n            ]\n        }\n    ]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/cliente/",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "cliente",
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CancelarPedido(Cliente)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZGZmODAzMzVmMTNlM2IyY2JmZjMyZiIsInJvbCI6ImNsaWVudGUiLCJpc0FjdGl2byI6dHJ1ZSwiaWF0IjoxNzkzMDY1MzAzLCJleHAiOjE3OTMxMDg1MDN9.x4efEglHjpAnv_hpMVMrxRk26ss4TthhZaGSYE_frPI",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "    {\n    \"productos\": \n        [{\n            \"ingredientes\": [\n                { \"ingrediente\": \"6ad97d0f291165b30fe75cb7\", \"cantidad\": 1 },\n                { \"ingrediente\": \"6adfc2a7120098c12b52e922\", \"cantidad\": 1 }\n            ]\n        }\n    ]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://burgabit.onrender.com/api/cliente/6ae0029935f13e3b2cbff349/cancelar",
+              "protocol": "https",
+              "host": [
+                "burgabit",
+                "onrender",
+                "com"
+              ],
+              "path": [
+                "api",
+                "cliente",
+                "6ae0029935f13e3b2cbff349",
+                "cancelar"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "API_URL",
+      "value": ""
+    },
+    {
+      "key": "json_web_token_06bk",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0izb",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_00ez",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0437",
+      "secret": true
+    }
+  ]
+}

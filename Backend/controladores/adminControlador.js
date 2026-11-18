@@ -5,7 +5,7 @@
 */
 
 import mongoose from "mongoose";
-import Orden from "../modelos/Orden.js";
+import Orden, {ESTADOS} from "../modelos/Orden.js";
 import Usuario from "../modelos/Usuario.js";
 
 /*
@@ -115,11 +115,21 @@ const listarUsuarios = async (_req, res) => {
 }
 
 // Consultar todas los pedidos (sin intervenir).
-const listarOrdenesAdmin = async (_req, res) => {
-    // No usa req, pero hay que respetar la sintaxis de Express.
-    // Según la documentación la buena práctica indica que lo que no se usa debe ser marcado con un "_"
+// Con ?estado= (por ejemplo, /api/admin?estado=Cancelado) devuelve solo los pedidos de ese estado.
+// El filtro lo hace la base de datos: así no viajan todos los pedidos para descartar la mayoría.
+const listarOrdenesAdmin = async (req, res) => {
+    const {estado} = req.query; // Parámetro de consulta: lo que viene después del "?" en la dirección.
+
+    // Validación: si viene, tiene que ser un solo texto y uno de los estados del modelo.
+    // Por ejemplo, ?estado=Pendiente&estado=Cancelado llega como array y se rechaza.
+    if(estado !== undefined && (typeof estado !== "string" || !ESTADOS.includes(estado))) {
+        return res.status(400).json({msg: "Estado inválido."}); // 400 = Bad Request
+    }
+
     try {
-        const ordenes = await Orden.find() // find() de mongoose devuelve todo si nfiltrar.
+        // Sin estado, un filtro vacío: find() devuelve todos.
+        const filtro = estado ? {estado} : {};
+        const ordenes = await Orden.find(filtro)
             .populate("cliente", "nombre apellido email") // Reemplaza las ids por los datos solicitados.
             .sort({createdAt: -1}); // Ordena de la orden mas nueva a la mas vieja.
 

@@ -341,7 +341,7 @@ Los pedidos. Guardan una **copia** de los datos de cada ingrediente al momento d
 | PATCH | `/api/cliente/:id/cancelar` | Cancelar un pedido propio | Cliente |
 | GET | `/api/cocinero` | Listar los pedidos activos | Cocina |
 | PATCH | `/api/cocinero/:id` | Cambiar el estado de un pedido | Cocina |
-| GET | `/api/admin` | Listar todos los pedidos | Administrador |
+| GET | `/api/admin` | Listar los pedidos: todos, o solo los de un estado con `?estado=` | Administrador |
 | GET | `/api/admin/usuarios` | Listar los usuarios | Administrador |
 | GET | `/api/admin/:id` | Consultar un pedido con su historial | Administrador |
 | POST | `/api/admin/admin` | Crear un administrador | Administrador |
@@ -620,10 +620,12 @@ Errores:
 ### Administrador (`/api/admin`)
 
 #### `GET /api/admin`
-Lista todos los pedidos, del más nuevo al más viejo, con nombre, apellido y email del cliente. **Acceso:** administrador.
+Lista los pedidos, del más nuevo al más viejo, con nombre, apellido y email del cliente. **Acceso:** administrador. **Parámetro de consulta (opcional):** `estado`, para traer solo los pedidos de ese estado; por ejemplo, `/api/admin?estado=Cancelado`. Sin `estado`, trae todos.
+
+El filtro lo hace la base de datos, con un índice sobre `estado` y `createdAt`: con muchos pedidos, no los recorre todos.
 
 Respuesta exitosa **200**: array de órdenes.
-Errores: **500** `Error al listar los pedidos.`
+Errores: **400** `Estado inválido.`, si `estado` no es Pendiente, En preparación, Lista para retirar, Entregada ni Cancelado · **500** `Error al listar los pedidos.`
 
 #### `GET /api/admin/usuarios`
 Lista todos los usuarios (sin contraseña), ordenados por rol y apellido. **Acceso:** administrador.

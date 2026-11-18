@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelado'];
+// Se exporta para validar el filtro del listado del administrador con los mismos estados.
+export const ESTADOS = ['Pendiente', 'En preparación', 'Lista para retirar', 'Entregada', 'Cancelado'];
 
 // Ingredientes al comprar
 const ingredienteOrdenSchema = new mongoose.Schema({
@@ -85,6 +86,10 @@ const ordenSchema = new mongoose.Schema({
         default: () => [{estado: 'Pendiente'}]
     }
 }, {timestamps: true});
+
+// Índice para el listado del administrador: busca por estado y ordena por fecha, del más nuevo al más viejo.
+// Con muchos pedidos, la base va directo a los del estado pedido en lugar de recorrerlos todos.
+ordenSchema.index({estado: 1, createdAt: -1});
 
 const Orden = mongoose.model('Orden', ordenSchema, 'ordenes');
 export default Orden;

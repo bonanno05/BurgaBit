@@ -56,6 +56,8 @@ app.use((err, req, res, next) => {
         return res.status(400).json({msg: "El JSON enviado tiene un formato inválido."});
     }
 
+    
+
     console.log(err);
     res.status(500).json({msg: "Error interno del servidor."});
 });
